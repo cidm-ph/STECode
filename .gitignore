@@ -1,3 +1,5 @@
 __pycache__
 .DS_Store
 .vs_code
+launch.json
+settings.json
