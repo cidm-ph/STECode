@@ -15,6 +15,7 @@ def stecode():
     parser = argparse.ArgumentParser(description="MiniStecode")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
     parser.add_argument("--input", "-i", help="Input directory or file", required=True)
+    parser.add_argument("--longread", "-l", help="Samples were sequenced with long read sequencing", action="store_true",)
     args = vars(parser.parse_args())
 
     print(
@@ -24,4 +25,3 @@ def stecode():
 
 
 def check_files(args):
-    
