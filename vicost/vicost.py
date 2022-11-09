@@ -1,5 +1,5 @@
 """
-Welcome to the primary script of stecode
+Welcome to the primary script of vicoSt
 Written by Winkie Fong - winkie.fong@health.nsw.gov.au
 """
 

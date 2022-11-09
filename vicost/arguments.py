@@ -8,10 +8,10 @@ import subprocess
 
 __version__ = "0.0.1"
 
-class stecodeargs:
+class vicostargs:
     def arguments():
         # argparse
-        parser = argparse.ArgumentParser(description="stecode")
+        parser = argparse.ArgumentParser(description="vicoSt")
         parser.add_argument(
             "--outdir", "-o", 
             help="Output directory to write to"

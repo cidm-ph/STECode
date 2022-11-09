@@ -1,8 +1,8 @@
 """
-Welcome to the secondary script of stecode
+Welcome to the secondary script of vicoSt
 Written by Winkie Fong - winkie.fong@health.nsw.gov.au
 
-A mini version of stecode that runs directly on the output files generated from samtools, and abricate
+A mini version of vicoSt that runs directly on the output files generated from samtools, and abricate
 """
 
 import os
@@ -14,8 +14,8 @@ import gen_output as go
 __version__ = "0.0.1"
 logging.getLogger().setLevel(logging.INFO)
 
-def stecode():
-    parser = argparse.ArgumentParser(description="MiniStecode")
+def vicost():
+    parser = argparse.ArgumentParser(description="Mini_vicoSt")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
     parser.add_argument("--path", "-p", help="Path to input files", required=True)
     parser.add_argument("--name", "-n", help="Name of samples", required=True)
@@ -31,7 +31,7 @@ def stecode():
             args["outdir"] = indir
 
     logging.info(
-        "Launching MiniStecode v%s on %s and writing output files to directory %s"
+        "Launching Mini-vicoSt v%s on %s and writing output files to directory %s"
         % (__version__, args["name"], args["outdir"])
     )
 
@@ -72,4 +72,4 @@ def check_folders(folder):
         logging.info(msg)
 
 if __name__ == "__main__":
-    stecode()
+    vicost()
