@@ -14,7 +14,7 @@ import gen_output as go
 __version__ = "0.0.1"
 logging.getLogger().setLevel(logging.INFO)
 
-def vicost():
+def mini_vicost():
     parser = argparse.ArgumentParser(description="Mini_vicoSt")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
     parser.add_argument("--path", "-p", help="Path to input files", required=True)
@@ -22,7 +22,6 @@ def vicost():
     parser.add_argument("--longread", "-l", help="Samples were sequenced with long read sequencing", action="store_true")
     args = vars(parser.parse_args())
 
-    is_longread = bool(args["longread"] is not None)
     if not args["outdir"]:
         indir = os.path.dirname(args["path"])
         if indir == "":
@@ -48,7 +47,7 @@ def vicost():
         file1,
         file2,
         file3,
-        is_longread,
+        args["longread"],
         args['name'],
         args['outdir']
     )
@@ -72,4 +71,4 @@ def check_folders(folder):
         logging.info(msg)
 
 if __name__ == "__main__":
-    vicost()
+    mini_vicost()
