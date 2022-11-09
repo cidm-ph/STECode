@@ -58,7 +58,7 @@ def check_files(file):
         truemsg = file + " exists and not empty, continuing..."
         logging.info(truemsg)
     else:
-        msg = file + " either file or output folder does not exist, please check files. Exiting."
+        msg = file + " either file is does not exist or is empty, please check files. Exiting."
         logging.critical(msg)
         sys.exit(1)
 
