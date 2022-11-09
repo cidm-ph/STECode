@@ -64,7 +64,7 @@ def check_files(file):
 
 def check_folders(folder):
     if os.path.exists(folder) == True:
-        truemsg = folder + "output folder exists"
+        truemsg = folder + " output folder exists"
         logging.info(truemsg)
     else:
         os.makedirs(folder)
