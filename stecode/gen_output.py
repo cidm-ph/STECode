@@ -1,10 +1,6 @@
 """
-
+Subscript of stecode that converges the 3 input files from the parsers and generate the output file.
 """
-
-samtools_test = "/Users/winx/Documents/Bioinformatics/stecode/tests/data/test2_eaesubtype.tab"
-stecvir_test = "/Users/winx/Documents/Bioinformatics/stecode/tests/data/test2_stecvir.tab"
-recAstxeaehly_test = "/Users/winx/Documents/Bioinformatics/stecode/tests/data/test2_2recAstxeaehly.txt"
 
 import datetime
 import parsers.samtools_parse as sp
@@ -38,5 +34,3 @@ def gen_output(stfile, recAfile, virfile, longread, name, output):
     outfile = os.path.join(output, name + "_virbarcode_" + date + ".tab")
     output_df = merge_all_NNs(stfile, recAfile, virfile, longread)
     output_df.to_csv(outfile, sep="\t", index=False)
-
-#print(gen_output(samtools_test, recAstxeaehly_test, stecvir_test, False, "test"))
