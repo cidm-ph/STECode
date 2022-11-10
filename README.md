@@ -35,6 +35,9 @@ FLAGS
 
 The first set of two digits represented the presence (to the subtype level) or absence of the eae gene. The next set of two digits represented inference of possible multiple, isogenic stx genes not assembled via short read sequencing. The last four sets of 2-mers each reflected the presence (to the subtype level) or absence of stx. This representation allowed up to four different stx operons to be captured, which is currently the maximum number observed both in vitro and in isolates.
 
+## TODO
+ - Construct full pipeline from fastq to barcode.
+
 ## Nomenclature
 (VI)rulence Bar(CO)ding for (ST)EC
 
