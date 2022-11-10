@@ -4,12 +4,16 @@ Getting the necessary vfdb data
 
 import pandas as pd
 import logging
+import sys
 
 pd.set_option('display.max_rows', None)
 pd.options.mode.chained_assignment = None
 
 def vfdb_input(test):
     vfdb_df = pd.read_csv(test, sep ='\t', header = 0)
+    if vfdb_df.empty:
+        msg = "This sample did not contain any stx genes, please check again if this sample is STEC. Exiting"
+        sys.exit(1)
     filt_vfdb_df = vfdb_df[vfdb_df['RESISTANCE'].str.contains('Stx')]
     filt_vfdb_df['RESISTANCE'] = filt_vfdb_df['RESISTANCE'].str.upper()
     filt_vfdb_df['Stxtype'], filt_vfdb_df['A or B'] = filt_vfdb_df['RESISTANCE'].str[3:5], filt_vfdb_df['RESISTANCE'].str[5]
