@@ -3,14 +3,14 @@ Subscript of vicoSt that converges the 3 input files from the parsers and genera
 """
 
 import datetime
-import parsers.samtools_parse as sp
+import parsers.eaesubtype_parse as ep
 import parsers.recAstxeaehly_parse as rp
 import parsers.stecvir_parse as vp
 import pandas as pd
 import os
 
-def merge_all_NNs(stfile, recAfile, virfile, longread):
-    NN1_df = sp.samtools_input(stfile)
+def merge_all_NNs(stfile, recAfile, virfile, longread, name):
+    NN1_df = ep.eaesubtype_input(stfile, name)
     NN2_df = rp.recA_input(recAfile, longread)
     NN3456_df = vp.vfdb_input(virfile)
     merge_df = pd.concat([NN1_df, NN2_df, NN3456_df], axis=1, join="inner")
@@ -32,5 +32,5 @@ def gen_output(stfile, recAfile, virfile, longread, name, output):
     now = datetime.datetime.now()
     date = now.strftime("%Y%m%d")
     outfile = os.path.join(output, name + "_virbarcode_" + date + ".tab")
-    output_df = merge_all_NNs(stfile, recAfile, virfile, longread)
+    output_df = merge_all_NNs(stfile, recAfile, virfile, longread, name)
     output_df.to_csv(outfile, sep="\t", index=False)

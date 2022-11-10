@@ -5,12 +5,21 @@ Getting the necessary samtools data
 import pandas as pd
 import numpy as np
 import logging
+import sys
 
 choices = ['12', '02', '01', 'T2', 'T1', '00']
 heirachy = ['12', '02', '01', 'T2', 'T1', '00', 'CG']
 
 def recA_input(file, longread):
     stx_df = pd.read_csv(file, sep ='\t', header = 0)
+    if stx_df.empty:
+        msg = "This sample did not contain any stx genes, please check again if this sample is STEC. Exiting"
+        logging.error(msg)
+        sys.exit(1)
+    if stx_df['#rname'].str.contains('recA_BA000007_3').any() == False:
+        msg = "The sample in question did not successfully detect the recA gene in samtools, retry or check manually"
+        logging.error(msg)
+        sys.exit(1)
     re_stx_df = stx_df[stx_df['coverage'] >= 95]
     re_stx_df['virgene'] = re_stx_df['#rname'].str.split('~~~').str.get(-1)
     filt_stx_df = re_stx_df[re_stx_df['virgene'].str.contains('Stx')]
