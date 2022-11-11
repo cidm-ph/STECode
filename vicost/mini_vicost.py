@@ -53,6 +53,9 @@ def mini_vicost():
     )
 
 def check_files(file):
+    """
+    Check input files if they exist and have contents
+    """
     if os.path.isfile(file) == True and os.stat(file).st_size != 0:
         truemsg = file + " exists and not empty, continuing..."
         logging.info(truemsg)
@@ -62,6 +65,9 @@ def check_files(file):
         sys.exit(1)
 
 def check_folders(folder):
+    """
+    Check the output folder if it exists, if not make new directory.
+    """
     if os.path.exists(folder) == True:
         truemsg = folder + " output folder exists"
         logging.info(truemsg)
