@@ -9,6 +9,7 @@ import argparse
 import logging
 import assists
 import cmd_runners
+import gen_output as go
 
 __version__ = "0.0.1"
 
@@ -33,12 +34,14 @@ def vicost():
         % (__version__, args["name"], args["outdir"])
     )
     ref = os.path.join(os.path.dirname(__file__), "database/stx_eae_hly_recA.fasta")
+    eaesub_db = os.path.join(os.path.dirname(__file__), "database/eaesub")
+    stecvir_db = os.path.join(os.path.dirname(__file__), "database/stecvir")
 
     assists.check_files(args['R1'])
     assists.check_files(args['R2'])
     assists.check_folders(args['outdir'])
 
-    cmd_runners.recAstxeaehly_runner(
+    cmd_runners.run_bwa(
         args['R1'],
         args['R2'],
         ref,
@@ -46,3 +49,35 @@ def vicost():
         args['outdir']
     )
 
+    cmd_runners.run_skesa(
+        args['R1'],
+        args['R2'],
+        args['name'],
+        args['outdir']
+    )
+
+    cmd_runners.run_abricate(
+        eaesub_db, 
+        stecvir_db,
+        args['name'],
+        args['outdir'])
+
+    file1 = os.path.join(args['outdir'], args["name"] + "_eaesubtype.tab")
+    file2 = os.path.join(args['outdir'], args["name"] + "_2recAstxeaehly.txt")
+    file3 = os.path.join(args['outdir'], args["name"] + "_stecvir.tab")
+
+    assists.check_files(file1)
+    assists.check_files(file2)
+    assists.check_files(file3)
+
+    go.gen_output(
+        file1,
+        file2,
+        file3,
+        args["longread"],
+        args['name'],
+        args['outdir']
+    )
+
+if __name__ == "__main__":
+    vicost()
