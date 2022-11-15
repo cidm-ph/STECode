@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "vicost"
+version = "0.0.1"
+description = "Virulence barcoding for STEC"
+authors = ["Winkie Fong <Winkie.Fong@health.nsw.gov.au>"]
+license = "LICENSE.md"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8.13"
+pandas = "^1.5.1"
+numpy = "^1.23.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+vicost = "vicost.vicost:vicost"
