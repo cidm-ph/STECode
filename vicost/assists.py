@@ -2,12 +2,13 @@ import os
 import subprocess
 import sys
 import logging
+import shutil
 
 def run_cmd(command):
     """
     Run commands with error outputs.
     """
-    logging.debug('command: %s', command)
+    logging.info('Running command: %s', command)
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     result.stdout = result.stdout.decode()
     result.stderr = result.stderr.decode()
@@ -42,3 +43,13 @@ def check_folders(folder):
         msg = folder + " does not exist, making output folder"
         logging.info(msg)
 
+def check_dependencies(cmd_exec):
+    cmd_path = shutil.which(cmd_exec)
+    if cmd_path is not None:
+        msg = "Located " + cmd_exec + " in " + cmd_path
+        logging.info(msg)
+    else:
+        msg = cmd_exec + " was not found, please check installation on your device"
+        logging.critical(msg)
+        sys.exit(1)
+    
