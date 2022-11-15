@@ -13,7 +13,8 @@ import gen_output as go
 __version__ = "0.0.1"
 logging.getLogger().setLevel(logging.INFO)
 
-dependency_list = ['abricate', 'samtools', 'bwa', 'skesa']
+dependency_list = ["abricate", "samtools", "bwa", "skesa"]
+
 
 def vicost():
     """
@@ -45,7 +46,7 @@ def vicost():
         args["name"],
         args["outdir"],
     )
-    logging.info('Checking installs of dependencies')
+    logging.info("Checking installs of dependencies")
     for dependency in dependency_list:
         assists.check_dependencies(dependency)
 
@@ -70,8 +71,12 @@ def vicost():
     assists.check_files(file2)
     assists.check_files(file3)
 
-    #run vicost
+    # run vicost
     go.gen_output(file1, file2, file3, args["longread"], args["name"], args["outdir"])
+    logging.info(
+        "Complete :D please check %s for the STEC barcode for your sample",
+        args["outdir"],
+    )
 
 
 if __name__ == "__main__":
