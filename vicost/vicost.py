@@ -75,7 +75,7 @@ def vicost():
     go.gen_output(file1, file2, file3, args["longread"], args["name"], args["outdir"])
     logging.info(
         "Complete :D please check %s for the STEC barcode for your sample",
-        args["outdir"],
+        args["outdir"]
     )
 
 
