@@ -30,8 +30,7 @@ def mini_vicost():
             args["outdir"] = indir
 
     logging.info(
-        "Launching Mini-vicoSt v%s on %s and writing output files to directory %s"
-        % (__version__, args["name"], args["outdir"])
+        "Launching Mini-vicoSt v%s on %s and writing output files to directory %s", __version__, args["name"], args["outdir"]
     )
 
     file1 = os.path.join(args['path'], args["name"] + "_eaesubtype.tab")
@@ -76,5 +75,5 @@ def check_folders(folder):
         msg = folder + " does not exist, making output folder"
         logging.info(msg)
 
-if __name__ == "__main__":
-    mini_vicost()
+#if __name__ == "__main__":
+#    mini_vicost()
