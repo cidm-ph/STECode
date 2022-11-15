@@ -51,7 +51,7 @@ def vicost():
 
     ref = os.path.join(os.path.dirname(__file__), "database/stx_eae_hly_recA.fasta")
 
-    # checking file integrity and existence of output directory    
+    # checking file integrity and existence of output directory
     assists.check_files(args["R1"])
     assists.check_files(args["R2"])
     assists.check_folders(args["outdir"])

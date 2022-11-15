@@ -3,7 +3,6 @@ All the runner scripts and commands
 """
 
 import assists
-import shutil
 
 
 def run_bwa(fq1, fq2, ref, name, outdir):
@@ -15,7 +14,10 @@ def run_bwa(fq1, fq2, ref, name, outdir):
         % (ref, fq1, fq2, outdir, name)
     )
     command2 = "samtools index -b %s/%s_2recAstxeaehly.sorted.bam" % (outdir, name)
-    command3 = "samtools coverage %s/%s_2recAstxeaehly.sorted.bam > %s/%s_2recAstxeaehly.txt" % (outdir, name, outdir, name)
+    command3 = (
+        "samtools coverage %s/%s_2recAstxeaehly.sorted.bam > %s/%s_2recAstxeaehly.txt"
+        % (outdir, name, outdir, name)
+    )
     assists.run_cmd(command1)
     assists.run_cmd(command2)
     assists.run_cmd(command3)
