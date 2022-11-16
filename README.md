@@ -19,7 +19,7 @@ git clone https://github.com/LilWinx/vicoSt.git
 Example usage (mini version)
 
 ```
-python mini_vicost.py --path $PATH --name $FILENAME --outdir $OUTDIR
+python vicost --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUTDIR
 ```
 
 FLAGS
@@ -27,8 +27,9 @@ FLAGS
 ```
 --outdir, -o [Folder] optional folder to write output files to
 --longread, -l turns on long read mode.
---path, -p [Folder] path to input files
---name, -n [Name] name of the files before the extension
+--R1, R1 fastq of sample (can be gzipped files)
+--R2, R2 fastq of sample (can be gzipped files)
+--name, -n [Name] name of the file you wish it to be
 ```
 
 ## Output
