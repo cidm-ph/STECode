@@ -1,5 +1,5 @@
 #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
-test2.contigs.fa	Contig_170_31.2462	1361	4357	+	hly	1-2997/2997	===============	0/0	100.00	99.63	stecvir	BAA31774	stecvir~~~hly~~~BAA31774~~~Hemolysin	Hemolysin
-test2.contigs.fa	Contig_238_43.7373	222	1169	+	stx1aA	1-948/948	===============	0/0	100.00	100.00	stecvir	AAA98151	stecvir~~~stx1aA~~~AAA98151~~~Stx1aA	Stx1aA
-test2.contigs.fa	Contig_238_43.7373	1179	1448	+	stx1aB	1-270/270	===============	0/0	100.00	100.00	stecvir	AAA98152	stecvir~~~stx1aB~~~AAA98152~~~Stx1aB	Stx1aB
-test2.contigs.fa	Contig_346_40.7367	435	3179	+	eae	1-2730/2805	========/======	18/51	96.68	84.76	stecvir	ECs4559	stecvir~~~eae~~~ECs4559~~~Intimin	Intimin
+/Users/winx/Documents/testdir/test2.contigs.fa	Contig_170_31.2462	1361	4357	+	hly	1-2997/2997	===============	0/0	100.00	99.63	stecvir	BAA31774	stecvir~~~hly~~~BAA31774~~~Hemolysin	Hemolysin
+/Users/winx/Documents/testdir/test2.contigs.fa	Contig_238_43.7373	222	1169	+	stx1aA	1-948/948	===============	0/0	100.00	100.00	stecvir	AAA98151	stecvir~~~stx1aA~~~AAA98151~~~Stx1aA	Stx1aA
+/Users/winx/Documents/testdir/test2.contigs.fa	Contig_238_43.7373	1179	1448	+	stx1aB	1-270/270	===============	0/0	100.00	100.00	stecvir	AAA98152	stecvir~~~stx1aB~~~AAA98152~~~Stx1aB	Stx1aB
+/Users/winx/Documents/testdir/test2.contigs.fa	Contig_346_40.7367	435	3179	+	eae	1-2730/2805	========/======	18/51	96.68	84.76	stecvir	ECs4559	stecvir~~~eae~~~ECs4559~~~Intimin	Intimin
