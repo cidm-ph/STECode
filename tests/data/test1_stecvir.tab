@@ -1,7 +1,7 @@
 #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
-test1.contigs.fa	Contig_224_52.0491	598	3402	+	eae	1-2805/2805	===============	0/0	100.00	100.00	stecvir	ECs4559	stecvir~~~eae~~~ECs4559~~~Intimin	Intimin
-test1.contigs.fa	Contig_39_28.849	499	3495	+	hly	1-2997/2997	===============	0/0	100.00	99.97	stecvir	BAA31774	stecvir~~~hly~~~BAA31774~~~Hemolysin	Hemolysin
-test1.contigs.fa	Contig_87_117.571	1869	2138	-	stx2cB	1-270/270	===============	0/0	100.00	99.63	stecvir	AAA16363	stecvir~~~stx2cB~~~AAA16363~~~Stx2cB	Stx2cB
-test1.contigs.fa	Contig_87_117.571	2150	3109	-	stx2cA	1-960/960	===============	0/0	100.00	99.17	stecvir	AAA16362	stecvir~~~stx2cA~~~AAA16362~~~Stx2cA	Stx2cA
-test1.contigs.fa	Contig_8_76.4927	1611	2558	+	stx1aA	1-948/948	===============	0/0	100.00	99.58	stecvir	AAA98151	stecvir~~~stx1aA~~~AAA98151~~~Stx1aA	Stx1aA
-test1.contigs.fa	Contig_8_76.4927	2568	2837	+	stx1aB	1-270/270	===============	0/0	100.00	100.00	stecvir	AAA98152	stecvir~~~stx1aB~~~AAA98152~~~Stx1aB	Stx1aB
+/Users/winx/Documents/testdir/test1.contigs.fa	Contig_212_52.0491	598	3402	+	eae	1-2805/2805	===============	0/0	100.00	100.00	stecvir	ECs4559	stecvir~~~eae~~~ECs4559~~~Intimin	Intimin
+/Users/winx/Documents/testdir/test1.contigs.fa	Contig_37_28.849	499	3495	+	hly	1-2997/2997	===============	0/0	100.00	99.97	stecvir	BAA31774	stecvir~~~hly~~~BAA31774~~~Hemolysin	Hemolysin
+/Users/winx/Documents/testdir/test1.contigs.fa	Contig_81_117.571	1869	2138	-	stx2cB	1-270/270	===============	0/0	100.00	99.63	stecvir	AAA16363	stecvir~~~stx2cB~~~AAA16363~~~Stx2cB	Stx2cB
+/Users/winx/Documents/testdir/test1.contigs.fa	Contig_81_117.571	2150	3109	-	stx2cA	1-960/960	===============	0/0	100.00	99.17	stecvir	AAA16362	stecvir~~~stx2cA~~~AAA16362~~~Stx2cA	Stx2cA
+/Users/winx/Documents/testdir/test1.contigs.fa	Contig_8_76.4927	1611	2558	+	stx1aA	1-948/948	===============	0/0	100.00	99.58	stecvir	AAA98151	stecvir~~~stx1aA~~~AAA98151~~~Stx1aA	Stx1aA
+/Users/winx/Documents/testdir/test1.contigs.fa	Contig_8_76.4927	2568	2837	+	stx1aB	1-270/270	===============	0/0	100.00	100.00	stecvir	AAA98152	stecvir~~~stx1aB~~~AAA98152~~~Stx1aB	Stx1aB
