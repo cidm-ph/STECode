@@ -17,3 +17,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 vicost = "vicost.vicost:vicost"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib"
+]
+testpaths = [
+    "tests"
+]
+pythonpath = ["."]
