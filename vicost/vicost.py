@@ -6,9 +6,9 @@ Written by Winkie Fong - winkie.fong@health.nsw.gov.au
 import argparse
 import logging
 import os
-import assists
-import cmd_runners
-import gen_output as go
+from vicost import assists
+from vicost import cmd_runners
+from vicost import gen_output as go
 
 __version__ = "0.0.1"
 logging.getLogger().setLevel(logging.INFO)
