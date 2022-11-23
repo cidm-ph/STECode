@@ -12,7 +12,7 @@ pip install git+https://github.com/cidm-ph/vicoSt
 ```
 GITHUB
 ```
-git clone https://github.com/LilWinx/vicoSt.git
+git clone https://github.com/cidm-ph/vicoSt.git
 ```
 
 ## Usage
