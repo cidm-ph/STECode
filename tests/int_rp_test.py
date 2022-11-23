@@ -25,3 +25,9 @@ def test_recA_parser(input, longread, expected):
     result = rp.recA_input(os.path.join(data_dir, input), longread)
     pdt.assert_frame_equal(result, shouldbe)
 
+def test_sys_exit():
+    input = os.path.join(data_dir, "null_2recAstxeaehly.txt")
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        rp.recA_input(input, False)
+    assert pytest_wrapped_e.type == SystemExit
+    assert pytest_wrapped_e.value.code == 1
