@@ -6,7 +6,7 @@ The STEC virulence barcode made up of 12 digits in the format of “XX-XX-XX-XX-
 
 ## Installation
 
-PIP
+PIP (Recommended)
 ```
 pip install git+https://github.com/LilWinx/vicoSt
 ```
@@ -19,7 +19,7 @@ git clone https://github.com/LilWinx/vicoSt.git
 Example usage (mini version)
 
 ```
-python vicost --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUTDIR
+vicost --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUTDIR
 ```
 
 FLAGS
