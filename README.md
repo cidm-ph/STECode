@@ -8,7 +8,7 @@ The STEC virulence barcode made up of 12 digits in the format of “XX-XX-XX-XX-
 
 PIP (Recommended)
 ```
-pip install git+https://github.com/LilWinx/vicoSt
+pip install git+https://github.com/cidm-ph/vicoSt
 ```
 GITHUB
 ```
