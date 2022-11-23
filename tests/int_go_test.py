@@ -34,4 +34,5 @@ def test_gen_output(stfile, recAfile, virfile, longread, name, expected):
         longread,
         name
     )
+    print(result)
     pdt.assert_frame_equal(result, shouldbe)

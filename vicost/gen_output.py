@@ -3,9 +3,9 @@ Subscript of vicoSt that converges the 3 input files from the parsers and genera
 """
 
 import datetime
-import parsers.eaesubtype_parse as ep
-import parsers.recAstxeaehly_parse as rp
-import parsers.stecvir_parse as vp
+from .parsers import eaesubtype_parse as ep
+from .parsers import recAstxeaehly_parse as rp
+from .parsers import stecvir_parse as vp
 import pandas as pd
 import os
 

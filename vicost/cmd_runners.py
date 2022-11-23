@@ -2,7 +2,7 @@
 All the runner scripts and commands 
 """
 
-import assists
+from . import assists
 
 
 def run_bwa(fq1, fq2, ref, name, outdir):
