@@ -48,3 +48,12 @@ The first set of two digits represented the presence (to the subtype level) or a
 
 ## Associated Citations
 Sim, E. M., Kim, R., Gall, M., Arnott, A., Howard, P., Valcanis, M., . . . Sintchenko, V. (2021). Added value of genomic surveillance of virulence factors in shiga toxin-producing escherichia coli in New South Wales, Australia. Frontiers in Microbiology, 12. [doi:10.3389/fmicb.2021.713724](https://www.frontiersin.org/articles/10.3389/fmicb.2021.713724/full)
+
+## Licence
+Copyright (C) 2022 Western Sydney Local Health District, NSW Health
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the [GNU General Public License](./LICENSE) along with this program. If not, see <https://www.gnu.org/licenses/>. 
