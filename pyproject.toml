@@ -3,7 +3,7 @@ name = "vicost"
 version = "0.0.1"
 description = "Virulence barcoding for STEC"
 authors = ["Winkie Fong <Winkie.Fong@health.nsw.gov.au>"]
-license = "LICENSE.md"
+license = "GPL-3.0-only"
 readme = "README.md"
 
 [tool.poetry.dependencies]
