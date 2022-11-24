@@ -47,5 +47,4 @@ The first set of two digits represented the presence (to the subtype level) or a
 (VI)rulence Bar(CO)ding for (ST)EC
 
 ## Associated Citations
-Sim, E. M., Kim, R., Gall, M., Arnott, A., Howard, P., Valcanis, M., . . . Sintchenko, V. (2021). Added value of genomic surveillance of virulence factors in shiga toxin-producing escherichia coli in New South Wales, Australia. Frontiers in Microbiology, 12. doi:10.3389/fmicb.2021.713724
-https://www.frontiersin.org/articles/10.3389/fmicb.2021.713724/full
+Sim, E. M., Kim, R., Gall, M., Arnott, A., Howard, P., Valcanis, M., . . . Sintchenko, V. (2021). Added value of genomic surveillance of virulence factors in shiga toxin-producing escherichia coli in New South Wales, Australia. Frontiers in Microbiology, 12. [doi:10.3389/fmicb.2021.713724](https://www.frontiersin.org/articles/10.3389/fmicb.2021.713724/full)
