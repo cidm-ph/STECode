@@ -16,7 +16,7 @@ git clone https://github.com/cidm-ph/vicoSt.git
 ```
 
 ## Usage
-Example usage (mini version)
+Example usage
 
 ```
 vicost --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUTDIR
@@ -38,7 +38,7 @@ The first set of two digits represented the presence (to the subtype level) or a
 
 ## Dependencies
 - Python == 3.8.13
-- [BWA](https://sourceforge.net/projects/bio-bwa/) >= 0.7.27
+- [BWA](https://sourceforge.net/projects/bio-bwa/) >= 0.7.17
 - [Samtools](http://www.htslib.org/) >= 1.16.1
 - [Abricate](https://github.com/tseemann/abricate) >= 1.0.1
 
