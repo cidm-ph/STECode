@@ -3,6 +3,9 @@ import subprocess
 import sys
 import logging
 import shutil
+import os.path
+
+vicost_db_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database")
 
 
 def run_cmd(command):
@@ -64,7 +67,18 @@ def check_dependencies(cmd_exec):
 
 
 def check_abricate():
-    result = subprocess.run(["abricate", "--list"])
+    result = subprocess.run(
+        ["abricate", "--list", "--datadir", vicost_db_dir],
+        capture_output=True,
+        text=True,
+    )
     if result.returncode > 0:
         logging.critical("abricate database is not prepared")
+        logging.critical(
+            "correct by running:   abricate --setupdb --datadir " + vicost_db_dir
+        )
+        sys.exit(1)
+    dbs = [x.split("\t")[0] for x in result.stdout.splitlines()[1:]]
+    if any(x not in dbs for x in ["eaesub", "stecvir"]):
+        logging.critical("unable to find vicoSt databases")
         sys.exit(1)
