@@ -14,6 +14,7 @@ def vfdb_input(test):
     vfdb_df = pd.read_csv(test, sep="\t", header=0)
     if vfdb_df.empty:
         msg = "This sample did not contain any stx genes, please check again if this sample is STEC. Exiting"
+        logging.error(msg)
         sys.exit(1)
     filt_vfdb_df = vfdb_df[vfdb_df["RESISTANCE"].str.contains("Stx")]
     filt_vfdb_df["RESISTANCE"] = filt_vfdb_df["RESISTANCE"].str.upper()
