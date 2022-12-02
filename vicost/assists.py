@@ -74,6 +74,9 @@ def check_abricate():
     )
     if result.returncode > 0:
         logging.critical("abricate database is not prepared")
+        logging.critical(
+            "correct by running:   abricate --setupdb --datadir " + vicost_db_dir
+        )
         sys.exit(1)
     dbs = [x.split("\t")[0] for x in result.stdout.splitlines()[1:]]
     if any(x not in dbs for x in ["eaesub", "stecvir"]):

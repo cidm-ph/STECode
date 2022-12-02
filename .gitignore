@@ -3,3 +3,12 @@ __pycache__
 .vs_code
 launch.json
 settings.json
+
+# abricate indexes
+*.ndb
+*.nhr
+*.nin
+*.not
+*.nsq
+*.ntf
+*.nto
