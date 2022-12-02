@@ -49,6 +49,8 @@ def vicost():
     logging.info("Checking installs of dependencies")
     for dependency in dependency_list:
         assists.check_dependencies(dependency)
+    if "abricate" in dependency_list:
+        assists.check_abricate()
 
     ref = os.path.join(os.path.dirname(__file__), "database/stx_eae_hly_recA.fasta")
 

@@ -61,3 +61,10 @@ def check_dependencies(cmd_exec):
         msg = cmd_exec + " was not found, please check installation on your device"
         logging.critical(msg)
         sys.exit(1)
+
+
+def check_abricate():
+    result = subprocess.run(["abricate", "--list"])
+    if result.returncode > 0:
+        logging.critical("abricate database is not prepared")
+        sys.exit(1)
