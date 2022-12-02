@@ -40,11 +40,13 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
     """
     Run Abricate to get the eaesubtype and stecvirulence
     """
+
     command5 = (
-        "abricate -db %s --minid 90.0 --mincov 90.0 %s/%s.contigs.fa > %s/%s_eaesubtype.tab"
-        % (eaesub_db, outdir, name, outdir, name)
+        "abricate --datadir %s --db %s --minid 90.0 --mincov 90.0 %s/%s.contigs.fa > %s/%s_eaesubtype.tab"
+        % (assists.vicost_db_dir, eaesub_db, outdir, name, outdir, name)
     )
-    command6 = "abricate -db %s %s/%s.contigs.fa > %s/%s_stecvir.tab " % (
+    command6 = "abricate --datadir %s --db %s %s/%s.contigs.fa > %s/%s_stecvir.tab " % (
+        assists.vicost_db_dir,
         stecvir_db,
         outdir,
         name,
