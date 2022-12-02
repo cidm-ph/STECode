@@ -20,12 +20,12 @@ def test_stecvir_parser(input, expected):
     temp = pd.DataFrame(expected)
     shouldbe = temp.set_index("NN").T
     shouldbe.reset_index(drop=True, inplace=True)
-    result = sp.vfdb_input(os.path.join(data_dir, input))
+    result = sp.stecfinder_input(os.path.join(data_dir, input))
     pdt.assert_frame_equal(result, shouldbe)
 
 def test_sys_exit():
     input = os.path.join(data_dir, "null_stecvir.tab")
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        sp.vfdb_input(input)
+        sp.stecfinder_input(input)
     assert pytest_wrapped_e.type == SystemExit
     assert pytest_wrapped_e.value.code == 1
