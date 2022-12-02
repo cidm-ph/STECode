@@ -11,7 +11,7 @@ def run_cmd(command):
     """
     logging.info("Running command: %s", command)
     result = subprocess.run(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, check=True
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
     )
     result.stdout = result.stdout.decode()
     result.stderr = result.stderr.decode()
