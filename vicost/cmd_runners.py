@@ -7,15 +7,15 @@ from . import assists
 
 def run_bwa(fq1, fq2, ref, name, outdir):
     """
-    Run BWA and Samtools to generate the 2recAstxeaehly text file.
+    Run BWA and Samtools to generate the 2recAstxeae text file.
     """
     command1 = (
-        "bwa mem -t 30 %s %s %s | samtools view --threads 30 -b -S | samtools sort --threads 30 -o %s/%s_2recAstxeaehly.sorted.bam"
+        "bwa mem -t 8 %s %s %s | samtools view --threads 8 -b -S | samtools sort --threads 8 -o %s/%s_2recAstxeae.sorted.bam"
         % (ref, fq1, fq2, outdir, name)
     )
-    command2 = "samtools index -b %s/%s_2recAstxeaehly.sorted.bam" % (outdir, name)
+    command2 = "samtools index -b %s/%s_2recAstxeae.sorted.bam" % (outdir, name)
     command3 = (
-        "samtools coverage %s/%s_2recAstxeaehly.sorted.bam > %s/%s_2recAstxeaehly.txt"
+        "samtools coverage %s/%s_2recAstxeae.sorted.bam > %s/%s_2recAstxeae.txt"
         % (outdir, name, outdir, name)
     )
     assists.run_cmd(command1)
@@ -44,7 +44,7 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
         "abricate -db %s --minid 90.0 --mincov 90.0 %s/%s.contigs.fa > %s/%s_eaesubtype.tab"
         % (eaesub_db, outdir, name, outdir, name)
     )
-    command6 = "abricate -db %s %s/%s.contigs.fa > %s/%s_stecvir.tab " % (
+    command6 = "abricate -db %s --mincov 21 %s/%s.contigs.fa > %s/%s_sfindAbricate.tab" % (
         stecvir_db,
         outdir,
         name,

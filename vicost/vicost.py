@@ -52,7 +52,7 @@ def vicost():
     if "abricate" in dependency_list:
         assists.check_abricate()
 
-    ref = os.path.join(os.path.dirname(__file__), "database/stx_eae_hly_recA.fasta")
+    ref = os.path.join(os.path.dirname(__file__), "database/stx_recA_eae.fasta")
 
     # checking file integrity and existence of output directory
     assists.check_files(args["R1"])
@@ -62,11 +62,11 @@ def vicost():
     # Run bwa, samtools, skesa and abricate
     cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], args["outdir"])
     cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], args["outdir"])
-    cmd_runners.run_abricate("eaesub", "stecvir", args["name"], args["outdir"])
+    cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], args["outdir"])
 
     # vicost portion - file check
     file1 = os.path.join(args["outdir"], args["name"] + "_eaesubtype.tab")
-    file2 = os.path.join(args["outdir"], args["name"] + "_2recAstxeaehly.txt")
+    file2 = os.path.join(args["outdir"], args["name"] + "_2recAstxeae.txt")
     file3 = os.path.join(args["outdir"], args["name"] + "_stecvir.tab")
 
     assists.check_files(file1)

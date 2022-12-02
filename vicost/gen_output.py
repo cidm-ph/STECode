@@ -13,7 +13,7 @@ import os
 def merge_all_NNs(stfile, recAfile, virfile, longread, name):
     NN1_df = ep.eaesubtype_input(stfile, name)
     NN2_df = rp.recA_input(recAfile, longread)
-    NN3456_df = vp.vfdb_input(virfile)
+    NN3456_df = vp.stecfinder_input(virfile)
     merge_df = pd.concat([NN1_df, NN2_df, NN3456_df], axis=1, join="inner")
     if "NN3" not in merge_df:
         merge_df["NN3"] = "00"
@@ -27,7 +27,8 @@ def merge_all_NNs(stfile, recAfile, virfile, longread, name):
     merge_df["Barcode"] = merge_df[cols].apply(
         lambda row: "-".join(row.values.astype(str)), axis=1
     )
-    keep_cols = ["#FILE", "NN1", "NN2", "NN3", "NN4", "NN5", "NN6", "Barcode"]
+    # Need to change all column names to below.
+    keep_cols = ["#Sequence_ID", "eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4", "Virulence_barcode"]
     merge_df = merge_df.reindex(columns=keep_cols)
     return merge_df
 
