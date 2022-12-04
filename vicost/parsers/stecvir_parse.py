@@ -22,7 +22,7 @@ def stecfinder_input(test):
     temp_vfdb_df = filt_vfdb_df.sort_values("Stxtype", ascending=True).reset_index(
         drop=True
     )
-    temp_vfdb_df.insert(0, "NN", range(3, 3 + len(temp_vfdb_df)))
-    temp_vfdb_df["NN"] = "NN" + temp_vfdb_df["NN"].map(str)
-    out_vfdb_df = temp_vfdb_df.set_index("NN").T
+    temp_vfdb_df.insert(0, "tox", range(1, 1 + len(temp_vfdb_df)))
+    temp_vfdb_df["tox"] = "tox" + temp_vfdb_df["tox"].map(str)
+    out_vfdb_df = temp_vfdb_df.set_index("tox").T
     return out_vfdb_df.reset_index(drop=True)

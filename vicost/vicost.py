@@ -67,14 +67,14 @@ def vicost():
     # vicost portion - file check
     file1 = os.path.join(args["outdir"], args["name"] + "_eaesubtype.tab")
     file2 = os.path.join(args["outdir"], args["name"] + "_2recAstxeae.txt")
-    file3 = os.path.join(args["outdir"], args["name"] + "_stecvir.tab")
+    file3 = os.path.join(args["outdir"], args["name"] + "_sfindAbricate.tab")
 
     assists.check_files(file1)
     assists.check_files(file2)
     assists.check_files(file3)
 
     # run vicost
-    go.gen_output(file1, file2, file3, args["longread"], args["name"], args["outdir"])
+    go.gen_output(file1, file2, file3, args["name"], args["outdir"])
     logging.info(
         "Complete :D please check %s for the STEC barcode for your sample",
         args["outdir"]
