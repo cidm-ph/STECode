@@ -41,12 +41,12 @@ def recA_input(file):
         & (filt_stx_df["virgene"] == "stx1"),
         (filt_stx_df["Normalised"] < 2),
     ]
-    filt_stx_df["NN2"] = np.select(conditions, choices, default="-")
+    filt_stx_df["iso_tox"] = np.select(conditions, choices, default="-")
     sub_stx_df = filt_stx_df.drop_duplicates(subset=["virgene"])
-    keep_cols = ["virgene", "NN2"]
+    keep_cols = ["virgene", "iso_tox"]
     sub_stx_df = sub_stx_df.reindex(columns=keep_cols)
-    sub_stx_df["NN2"] = pd.Categorical(
-        sub_stx_df["NN2"], ordered=True, categories=choices
+    sub_stx_df["iso_tox"] = pd.Categorical(
+        sub_stx_df["iso_tox"], ordered=True, categories=choices
     )
-    sub_stx_df = sub_stx_df.sort_values(["virgene", "NN2"]).drop_duplicates("NN2")
+    sub_stx_df = sub_stx_df.sort_values(["virgene", "iso_tox"]).drop_duplicates("iso_tox")
     return sub_stx_df.reset_index(drop=True)
