@@ -79,6 +79,6 @@ def check_abricate():
         )
         sys.exit(1)
     dbs = [x.split("\t")[0] for x in result.stdout.splitlines()[1:]]
-    if any(x not in dbs for x in ["eaesub", "stecvir"]):
+    if any(x not in dbs for x in ["eaesub", "stecfinder"]):
         logging.critical("unable to find vicoSt databases")
         sys.exit(1)
