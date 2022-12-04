@@ -13,11 +13,7 @@ def stecfinder_input(test):
     vfdb_df = pd.read_csv(test, sep="\t", header=0)
     if vfdb_df.empty:
         msg = "This sample did not contain any stx genes, please check again if this sample is STEC. Exiting"
-<<<<<<< HEAD
-        logging.critical(msg)
-=======
         logging.error(msg)
->>>>>>> fa5e87d713c3b21012fada79fe2d7285fb0b5aa4
         sys.exit(1)
     filt_vfdb_df = vfdb_df[vfdb_df["PRODUCT"].str.contains("stx")]
     filt_vfdb_df["PRODUCT"] = filt_vfdb_df["PRODUCT"].str.upper()

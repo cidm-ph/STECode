@@ -45,12 +45,8 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
         "abricate --datadir %s --db %s --minid 90.0 --mincov 90.0 %s/%s.contigs.fa > %s/%s_eaesubtype.tab"
         % (assists.vicost_db_dir, eaesub_db, outdir, name, outdir, name)
     )
-<<<<<<< HEAD
-    command6 = "abricate -db %s --mincov 21 %s/%s.contigs.fa > %s/%s_sfindAbricate.tab" % (
-=======
-    command6 = "abricate --datadir %s --db %s %s/%s.contigs.fa > %s/%s_stecvir.tab " % (
+    command6 = "abricate --datadir %s --mincov 21 --db %s %s/%s.contigs.fa > %s/%s_stecvir.tab " % (
         assists.vicost_db_dir,
->>>>>>> fa5e87d713c3b21012fada79fe2d7285fb0b5aa4
         stecvir_db,
         outdir,
         name,
