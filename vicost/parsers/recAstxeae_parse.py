@@ -50,3 +50,7 @@ def recA_input(file):
     )
     sub_stx_df = sub_stx_df.sort_values(["virgene", "iso_tox"]).drop_duplicates("iso_tox")
     return sub_stx_df.reset_index(drop=True)
+
+def run_skip():
+    stx_df = pd.DataFrame({'virgene': ['N/A'], 'iso_tox': ['CG']})
+    return stx_df

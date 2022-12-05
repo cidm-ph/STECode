@@ -55,3 +55,5 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
     )
     assists.run_cmd(command5)
     assists.run_cmd(command6)
+
+

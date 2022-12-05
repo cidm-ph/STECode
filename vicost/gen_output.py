@@ -9,14 +9,12 @@ from .parsers import stecvir_parse as vp
 import pandas as pd
 import os
 
-stfile = "/Users/winx/Documents/Bioinformatics/vicost/tests/data/test1_eaesubtype.tab"
-recAfile = "/Users/winx/Downloads/example_2recAstxeae.txt"
-virfile = "/Users/winx/Downloads/example_sfindAbricate.tab"
-
-
-def merge_all_NNs(stfile, recAfile, virfile, name):
+def merge_all_NNs(stfile, recAfile, virfile, assembly, name):
     NN1_df = ep.eaesubtype_input(stfile, name)
-    NN2_df = rp.recA_input(recAfile)
+    if assembly is True:
+        NN2_df = rp.run_skip()
+    else:
+        NN2_df = rp.recA_input(recAfile)
     NN3456_df = vp.stecfinder_input(virfile)
     merge_df = pd.concat([NN1_df, NN2_df, NN3456_df], axis=1, join="inner")
     if "tox1" not in merge_df:
@@ -37,9 +35,10 @@ def merge_all_NNs(stfile, recAfile, virfile, name):
     return merge_df
 
 
-def gen_output(stfile, recAfile, virfile, name, output):
+def gen_output(stfile, recAfile, virfile, name, assembly, output):
     now = datetime.datetime.now()
     date = now.strftime("%Y%m%d")
     outfile = os.path.join(output, name + "_virbarcode_" + date + ".tab")
-    output_df = merge_all_NNs(stfile, recAfile, virfile, name)
+    output_df = merge_all_NNs(stfile, recAfile, virfile, assembly, name)
     output_df.to_csv(outfile, sep="\t", index=False)
+

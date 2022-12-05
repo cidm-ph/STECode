@@ -22,15 +22,10 @@ def vicost():
     """
     parser = argparse.ArgumentParser(description="vicoSt")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
-    parser.add_argument("--R1", help="Path to R1 file", required=True)
-    parser.add_argument("--R2", help="Path to R2 file", required=True)
+    parser.add_argument("--R1", help="Path to R1 file")
+    parser.add_argument("--R2", help="Path to R2 file")
+    parser.add_argument("--fasta", "-f", help = "Path to Fasta file")
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
-    parser.add_argument(
-        "--longread",
-        "-l",
-        help="Samples were sequenced with long read sequencing",
-        action="store_true",
-    )
     args = vars(parser.parse_args())
 
     if not args["outdir"]:
@@ -53,28 +48,39 @@ def vicost():
         assists.check_abricate()
 
     ref = os.path.join(os.path.dirname(__file__), "database/stx_recA_eae.fasta")
+    is_assembly = bool(args['fasta'] is not None)
 
     # checking file integrity and existence of output directory
-    assists.check_files(args["R1"])
-    assists.check_files(args["R2"])
-    assists.check_folders(args["outdir"])
+    if is_assembly == True:
+        assists.check_files(args["fasta"])
+        
+        #run only abricate
+        cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], args["outdir"])
+    else:
+        assists.check_files(args["R1"])
+        assists.check_files(args["R2"])
+        assists.check_folders(args["outdir"])
 
-    # Run bwa, samtools, skesa and abricate
-    cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], args["outdir"])
-    cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], args["outdir"])
-    cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], args["outdir"])
+        # Run bwa, samtools, skesa and abricate
+        cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], args["outdir"])
+        cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], args["outdir"])
+        cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], args["outdir"])
 
     # vicost portion - file check
     file1 = os.path.join(args["outdir"], args["name"] + "_eaesubtype.tab")
-    file2 = os.path.join(args["outdir"], args["name"] + "_2recAstxeae.txt")
     file3 = os.path.join(args["outdir"], args["name"] + "_sfindAbricate.tab")
 
     assists.check_files(file1)
-    assists.check_files(file2)
     assists.check_files(file3)
 
+    if is_assembly is False:
+        file2 = os.path.join(args["outdir"], args["name"] + "_2recAstxeae.txt")
+        assists.check_files(file2)
+    else:
+        file2 = "skip"
+
     # run vicost
-    go.gen_output(file1, file2, file3, args["name"], args["outdir"])
+    go.gen_output(file1, file2, file3, args["name"], is_assembly, args["outdir"])
     logging.info(
         "Complete :D please check %s for the STEC barcode for your sample",
         args["outdir"]
