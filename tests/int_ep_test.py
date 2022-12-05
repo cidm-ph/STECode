@@ -9,9 +9,9 @@ data_dir = "tests/data/"
 @pytest.mark.parametrize(
     "input, name, expected",
     [
-        ("test1_eaesubtype.tab", "test1", {'#FILE': ['test1'], 'GENE': ['06_Gamma1'], 'NN1': ['06']}),
-        ("test2_eaesubtype.tab", "test2", {'#FILE': ['test2'], 'GENE': ['03_Beta1'], 'NN1': ['03']}),
-        ("null_eaesubtype.tab", "null", {'#FILE': ['null'], 'GENE': ['00'], 'NN1': ['00']}),
+        ("test1_eaesubtype.tab", "test1", {'#Sequence_ID': ['test1'], 'GENE': ['06_Gamma1'], 'eae_sub': ['06']}),
+        ("test2_eaesubtype.tab", "test2", {'#Sequence_ID': ['test2'], 'GENE': ['03_Beta1'], 'eae_sub': ['03']}),
+        ("null_eaesubtype.tab", "null", {'#Sequence_ID': ['null'], 'GENE': ['00'], 'eae_sub': ['00']}),
     ]
 )
 
