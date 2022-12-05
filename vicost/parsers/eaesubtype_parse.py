@@ -8,7 +8,6 @@ import logging
 
 pd.set_option("display.max_rows", None)
 
-
 def eaesubtype_input(file, name):
     eaesubtype_df = pd.read_csv(file, sep="\t", header=0)
     keep_cols = ["#Sequence_ID", "GENE", "eae_sub"]
