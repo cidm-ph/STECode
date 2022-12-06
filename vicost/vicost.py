@@ -25,6 +25,7 @@ def vicost():
     parser.add_argument("--R1", help="Path to R1 file")
     parser.add_argument("--R2", help="Path to R2 file")
     parser.add_argument("--fasta", "-f", help = "Path to Fasta file")
+    parser.add_argument("--longread", "-")
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
     args = vars(parser.parse_args())
 
@@ -80,7 +81,8 @@ def vicost():
         file2 = "skip"
 
     # run vicost
-    go.gen_output(file1, file2, file3, args["name"], is_assembly, args["outdir"])
+    go_df = go.merge_all_NNs(file1, file2, file3, is_assembly, args["name"], args['longread'])
+    go.gen_output(args['name'], args['outdir'], go_df)
     logging.info(
         "Complete :D please check %s for the STEC barcode for your sample",
         args["outdir"]
