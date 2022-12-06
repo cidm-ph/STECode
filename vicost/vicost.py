@@ -10,7 +10,7 @@ from vicost import assists
 from vicost import cmd_runners
 from vicost import gen_output as go
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 logging.getLogger().setLevel(logging.INFO)
 
 dependency_list = ["abricate", "samtools", "bwa", "skesa"]
