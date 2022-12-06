@@ -27,6 +27,12 @@ def vicost():
     parser.add_argument("--fasta", "-f", help = "Path to Fasta file")
     parser.add_argument("--longread", "-")
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
+    parser.add_argument(
+        "--version", "-v",
+        action="version",
+        help="get vicoSt version",
+        version="vicoSt v%s" % __version__,
+    )
     args = vars(parser.parse_args())
 
     if not args["outdir"]:
