@@ -24,11 +24,12 @@ def vicost():
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
     parser.add_argument("--R1", help="Path to R1 file")
     parser.add_argument("--R2", help="Path to R2 file")
-    parser.add_argument("--fasta", "-f", help = "Path to Fasta file")
+    parser.add_argument("--fasta", "-f", help="Path to Fasta file")
     parser.add_argument("--longread", "-")
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
     parser.add_argument(
-        "--version", "-v",
+        "--version",
+        "-v",
         action="version",
         help="get vicoSt version",
         version="vicoSt v%s" % __version__,
@@ -55,13 +56,13 @@ def vicost():
         assists.check_abricate()
 
     ref = os.path.join(os.path.dirname(__file__), "database/stx_recA_eae.fasta")
-    is_assembly = bool(args['fasta'] is not None)
+    is_assembly = bool(args["fasta"] is not None)
 
     # checking file integrity and existence of output directory
     if is_assembly == True:
         assists.check_files(args["fasta"])
-        
-        #run only abricate
+
+        # run only abricate
         cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], args["outdir"])
     else:
         assists.check_files(args["R1"])
@@ -87,11 +88,13 @@ def vicost():
         file2 = "skip"
 
     # run vicost
-    go_df = go.merge_all_NNs(file1, file2, file3, is_assembly, args["name"], args['longread'])
-    go.gen_output(args['name'], args['outdir'], go_df)
+    go_df = go.merge_all_NNs(
+        file1, file2, file3, is_assembly, args["name"], args["longread"]
+    )
+    go.gen_output(args["name"], args["outdir"], go_df)
     logging.info(
         "Complete :D please check %s for the STEC barcode for your sample",
-        args["outdir"]
+        args["outdir"],
     )
 
 

@@ -9,6 +9,7 @@ import sys
 pd.set_option("display.max_rows", None)
 pd.options.mode.chained_assignment = None
 
+
 def stecfinder_input(test):
     vfdb_df = pd.read_csv(test, sep="\t", header=0)
     if vfdb_df.empty:

@@ -9,6 +9,7 @@ from .parsers import stecvir_parse as vp
 import pandas as pd
 import os
 
+
 def merge_all_NNs(stfile, recAfile, virfile, assembly, name, longread):
     NN1_df = ep.eaesubtype_input(stfile, name)
     if assembly is True:
@@ -30,7 +31,16 @@ def merge_all_NNs(stfile, recAfile, virfile, assembly, name, longread):
         lambda row: "-".join(row.values.astype(str)), axis=1
     )
     # Need to change all column names to below.
-    keep_cols = ["#Sequence_ID", "eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4", "Virulence_barcode"]
+    keep_cols = [
+        "#Sequence_ID",
+        "eae_sub",
+        "iso_tox",
+        "tox1",
+        "tox2",
+        "tox3",
+        "tox4",
+        "Virulence_barcode",
+    ]
     merge_df = merge_df.reindex(columns=keep_cols)
     return merge_df
 
@@ -40,4 +50,3 @@ def gen_output(name, output, go_df):
     date = now.strftime("%Y%m%d")
     outfile = os.path.join(output, name + "_virbarcode_" + date + ".tab")
     go_df.to_csv(outfile, sep="\t", index=False)
-

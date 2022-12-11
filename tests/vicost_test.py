@@ -5,6 +5,7 @@ from .utils import cmd_runner
 
 vicost_cmd = cmd_runner(["python", "-m", "vicost"])
 
+
 def test_cmd(out_dir):
     """
     test_cmd
@@ -15,14 +16,16 @@ def test_cmd(out_dir):
     r1 = os.path.join(data_dir, "test1_trimmed.paired_R1.fq.gz")
     r2 = os.path.join(data_dir, "test1_trimmed.paired_R2.fq.gz")
 
-    out, err, code = vicost_cmd(["--R1", r1, "--R2", r2, "--name", "test1", "--outdir", out_dir])
+    out, err, code = vicost_cmd(
+        ["--R1", r1, "--R2", r2, "--name", "test1", "--outdir", out_dir]
+    )
 
     assert code == 0
 
     expected_files = [
         "test1_2recAstxeae.txt",
         "test1_eaesubtype.tab",
-        "test1_sfindAbricate.tab"
+        "test1_sfindAbricate.tab",
     ]
 
     for file in expected_files:
@@ -36,4 +39,3 @@ def test_cmd(out_dir):
         with open(output_file_path) as output_file:
             # check file contents match
             assert expected_line == output_file.readlines()
-    
