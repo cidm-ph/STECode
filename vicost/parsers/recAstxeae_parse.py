@@ -7,7 +7,9 @@ import numpy as np
 import logging
 import sys
 
-choices = ["12", "02", "01", "T2", "T1", "00"]
+heirarchy = ["12", "02", "01", "T2", "T1", "00"]
+
+file = "/Users/winx/Documents/reads_for_testing/vicost/20-001-0154_2recAstxeae.txt"
 
 
 def recA_input(file):
@@ -38,23 +40,23 @@ def recA_input(file):
         & (filt_stx_df["virgene"].str.contains("stx1").any()),
         (filt_stx_df["Normalised"] <= 2.2)
         & (filt_stx_df["Normalised"] >= 2)
-        & (filt_stx_df["virgene"] == "stx2"),
+        & (filt_stx_df["virgene"].str.contains("stx2").any()),
         (filt_stx_df["Normalised"] <= 2.2)
         & (filt_stx_df["Normalised"] >= 2)
-        & (filt_stx_df["virgene"] == "stx1"),
+        & (filt_stx_df["virgene"] .str.contains("stx1").any()),
         (filt_stx_df["Normalised"] < 2),
     ]
-    filt_stx_df["iso_tox"] = np.select(conditions, choices, default="-")
+    filt_stx_df["iso_tox"] = np.select(conditions, heirarchy, default="XX")
     sub_stx_df = filt_stx_df.drop_duplicates(subset=["virgene"])
     keep_cols = ["virgene", "iso_tox"]
     sub_stx_df = sub_stx_df.reindex(columns=keep_cols)
     sub_stx_df["iso_tox"] = pd.Categorical(
-        sub_stx_df["iso_tox"], ordered=True, categories=choices
+        sub_stx_df["iso_tox"], ordered=True, categories=heirarchy
     )
-    sub_stx_df = sub_stx_df.sort_values(["virgene", "iso_tox"]).drop_duplicates(
-        "iso_tox"
-    )
-    return sub_stx_df.reset_index(drop=True)
+    sub_stx_df.sort_values(by="iso_tox", inplace=True)
+    sub_stx_df.reset_index(drop = True, inplace=True)
+    result_df = sub_stx_df.truncate(after=0)
+    return result_df
 
 
 def run_skip(longread):
@@ -63,3 +65,5 @@ def run_skip(longread):
     else:
         stx_df = pd.DataFrame({"virgene": ["N/A"], "iso_tox": ["DG"]})
     return stx_df
+
+print(recA_input(file))
