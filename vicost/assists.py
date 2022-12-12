@@ -73,7 +73,7 @@ def check_abricate():
         text=True,
     )
     if result.returncode > 0:
-        logging.critical("abricate database is not prepared")
+        logging.critical("Abricate database is not prepared")
         logging.critical(
             "correct by running:   abricate --setupdb --datadir " + vicost_db_dir
         )

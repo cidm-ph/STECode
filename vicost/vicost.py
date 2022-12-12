@@ -63,7 +63,7 @@ def vicost():
         assists.check_files(args["fasta"])
 
         # run only abricate
-        cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], args["outdir"])
+        cmd_runners.run_solo_abricate("eaesub", "stecfinder", args["name"], args['fasta'], args["outdir"])
     else:
         assists.check_files(args["R1"])
         assists.check_files(args["R2"])
