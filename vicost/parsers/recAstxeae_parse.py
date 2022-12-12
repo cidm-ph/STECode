@@ -9,9 +9,6 @@ import sys
 
 heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 
-file = "/Users/winx/Documents/reads_for_testing/vicost/20-001-0154_2recAstxeae.txt"
-
-
 def recA_input(file):
     stx_df = pd.read_csv(file, sep="\t", header=0)
     if stx_df.empty:
@@ -65,5 +62,3 @@ def run_skip(longread):
     else:
         stx_df = pd.DataFrame({"virgene": ["N/A"], "iso_tox": ["DG"]})
     return stx_df
-
-print(recA_input(file))
