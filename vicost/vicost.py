@@ -25,7 +25,7 @@ def vicost():
     parser.add_argument("--R1", help="Path to R1 file")
     parser.add_argument("--R2", help="Path to R2 file")
     parser.add_argument("--fasta", "-f", help="Path to Fasta file")
-    parser.add_argument("--longread", "-")
+    parser.add_argument("--longread", "-l", action="store_true", help="Genome was assembled by long reads")
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
     parser.add_argument(
         "--version",
@@ -57,10 +57,30 @@ def vicost():
 
     ref = os.path.join(os.path.dirname(__file__), "database/stx_recA_eae.fasta")
     is_assembly = bool(args["fasta"] is not None)
-
+    is_reads = bool(args['R1'] is not None)
+    
+    # cmd checks
+    if is_reads is True:
+        if args['R2'] is None:
+            logging.error("R2 was not provided, please provide the paired reads")
+    
     # checking file integrity and existence of output directory
-    if is_assembly == True:
+    if all(item is not None for item in [args['fasta'], args['R1'], args['R2']]):
+        assists.check_files(args["R1"])
+        assists.check_files(args["R2"])
         assists.check_files(args["fasta"])
+        logging.info("Found fasta, R1 and R2, skipping Skesa")
+
+        # skip skesa
+        cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], args["outdir"])
+        cmd_runners.run_solo_abricate("eaesub", "stecfinder", args["name"], args['fasta'], args["outdir"])
+
+    elif is_assembly is True and is_reads is False:
+        assists.check_files(args["fasta"])
+        if args['longread'] is True:
+            logging.info("Running only Abricate on already assembled genomes, iso_tox will be CG")
+        else:
+            logging.info("Running only Abricate on already assembled genomes, iso_tox will be DG")
 
         # run only abricate
         cmd_runners.run_solo_abricate("eaesub", "stecfinder", args["name"], args['fasta'], args["outdir"])
@@ -81,15 +101,15 @@ def vicost():
     assists.check_files(file1)
     assists.check_files(file3)
 
-    if is_assembly is False:
+    if is_assembly is True and is_reads is False:
+        file2 = "skip"
+    else:
         file2 = os.path.join(args["outdir"], args["name"] + "_2recAstxeae.txt")
         assists.check_files(file2)
-    else:
-        file2 = "skip"
 
     # run vicost
     go_df = go.merge_all_NNs(
-        file1, file2, file3, is_assembly, args["name"], args["longread"]
+        file1, file2, file3, is_reads, args["name"], args["longread"]
     )
     go.gen_output(args["name"], args["outdir"], go_df)
     logging.info(

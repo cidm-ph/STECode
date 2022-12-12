@@ -10,12 +10,12 @@ import pandas as pd
 import os
 
 
-def merge_all_NNs(stfile, recAfile, virfile, assembly, name, longread):
+def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
     NN1_df = ep.eaesubtype_input(stfile, name)
-    if assembly is True:
-        NN2_df = rp.run_skip(longread)
-    else:
+    if reads is True:
         NN2_df = rp.recA_input(recAfile)
+    else:
+        NN2_df = rp.run_skip(longread)
     NN3456_df = vp.stecfinder_input(virfile)
     merge_df = pd.concat([NN1_df, NN2_df, NN3456_df], axis=1, join="inner")
     if "tox1" not in merge_df:
