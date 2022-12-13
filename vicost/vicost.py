@@ -37,18 +37,18 @@ def vicost():
     )
     args = vars(parser.parse_args())
 
-    if not args["outdir"]:
-        indir = os.path.dirname(args["R1"])
-        if indir == "":
-            args["outdir"] = "."
-        else:
-            args["outdir"] = indir
+    if args['R1'] is not None:
+        default = os.path.dirname(args['R1'])
+    if args["fasta"] is not None:
+        default = os.path.dirname(args['fasta'])
+    if args["outdir"] is None:
+        outdir = default
 
     logging.info(
         "Launching vicoSt v%s on %s and writing output files to directory %s",
         __version__,
         args["name"],
-        args["outdir"],
+        outdir,
     )
     logging.info("Checking installs of dependencies")
     for dependency in dependency_list:
