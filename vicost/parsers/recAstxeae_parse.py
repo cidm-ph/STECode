@@ -30,7 +30,8 @@ def recA_input(file):
     filt_stx_df["Normalised"] = filt_stx_df["meandepth"] / div
     conditions = [
         (filt_stx_df["Normalised"] > 2.2)
-        & (filt_stx_df["virgene"].str.contains("stx1" and "stx2").any()),
+        & (filt_stx_df["virgene"].str.contains("stx1").any())
+        & (filt_stx_df["virgene"].str.contains("stx2").any()),
         (filt_stx_df["Normalised"] > 2.2)
         & (filt_stx_df["virgene"].str.contains("stx2").any()),
         (filt_stx_df["Normalised"] > 2.2)
