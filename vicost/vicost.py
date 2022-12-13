@@ -45,11 +45,11 @@ def vicost():
             logging.error("R2 was not provided, please provide the paired reads")
             sys.exit(1)
 
-    if args['outdir'] is None and args['R1'] is not None:
-        default = os.path.dirname(args['R1'])
-        outdir = default
-    elif args['outdir'] is None and args['fasta'] is not None:
+    if args['outdir'] is None and args['fasta'] is not None:
         default = os.path.dirname(args['fasta'])
+        outdir = default
+    elif args['outdir'] is None and args['R1'] is not None:
+        default = os.path.dirname(args['R1'])
         outdir = default
     else:
         outdir = args["outdir"]
