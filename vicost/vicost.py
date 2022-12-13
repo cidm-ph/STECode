@@ -6,6 +6,7 @@ Written by Winkie Fong - winkie.fong@health.nsw.gov.au
 import argparse
 import logging
 import os
+import sys
 from vicost import assists
 from vicost import cmd_runners
 from vicost import gen_output as go
@@ -63,6 +64,7 @@ def vicost():
     if is_reads is True:
         if args['R2'] is None:
             logging.error("R2 was not provided, please provide the paired reads")
+            sys.exit(1)
     
     # checking file integrity and existence of output directory
     if all(item is not None for item in [args['fasta'], args['R1'], args['R2']]):
