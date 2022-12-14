@@ -1,6 +1,6 @@
 import pytest
 import os
-from vicost.parsers import eaesubtype_parse as ep
+from stecode.parsers import eaesubtype_parse as ep
 import pandas as pd
 import pandas.testing as pdt
 

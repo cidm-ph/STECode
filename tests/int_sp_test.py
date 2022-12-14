@@ -1,6 +1,6 @@
 import pytest
 import os
-from vicost.parsers import stecvir_parse as sp
+from stecode.parsers import stecvir_parse as sp
 import pandas as pd
 import numpy as np
 import pandas.testing as pdt

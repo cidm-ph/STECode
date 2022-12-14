@@ -1,4 +1,4 @@
-# vicoSt
+# STECode
 
 A pipeline for deployment of a Shiga Toxin-Producing Escherichia coli Virulence Barcode.
 
@@ -8,18 +8,18 @@ The STEC virulence barcode made up of 12 digits in the format of “XX-XX-XX-XX-
 
 PIP (Recommended)
 ```
-pip install git+https://github.com/cidm-ph/vicoSt
+pip install git+https://github.com/cidm-ph/STECode
 ```
 GITHUB
 ```
-git clone https://github.com/cidm-ph/vicoSt.git
+git clone https://github.com/cidm-ph/STECode.git
 ```
 
 ## Usage
 Example usage
 
 ```
-vicost --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUTDIR
+stecode --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUTDIR
 ```
 
 FLAGS

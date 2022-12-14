@@ -11,14 +11,14 @@ name = "test1"
 @pytest.mark.parametrize(
     "options,expected",
     [
-        ([], b'vicost: error: the following arguments are required: --name/-n'),
-        (["--R1", r1], b'vicost: error: the following arguments are required: --name/-n')
+        ([], b'stecode: error: the following arguments are required: --name/-n'),
+        (["--R1", r1], b'stecode: error: the following arguments are required: --name/-n')
     ],
 )
 
 def test_missing_args(options, expected):
     # testing the exit of not applying an R2
-    result = subprocess.run(["vicost"] + options, capture_output=True)
+    result = subprocess.run(["stecode"] + options, capture_output=True)
 
     #assert that capture output is matching the expected
     lines = result.stderr.splitlines()

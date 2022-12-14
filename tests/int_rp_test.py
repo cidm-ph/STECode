@@ -1,6 +1,6 @@
 import pytest
 import os
-from vicost.parsers import recAstxeae_parse as rp
+from stecode.parsers import recAstxeae_parse as rp
 import pandas as pd
 import pandas.testing as pdt
 

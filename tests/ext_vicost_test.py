@@ -20,7 +20,7 @@ def test_cmd(out_dir, r1, r2, fasta, name):
     now = datetime.datetime.now()
     date = now.strftime("%Y%m%d")
     
-    result = subprocess.run(["vicost", "--R1", r1, "--R2", r2, "-f", fasta, "-n", name, "-o", out_dir], capture_output=True)
+    result = subprocess.run(["stecode", "--R1", r1, "--R2", r2, "-f", fasta, "-n", name, "-o", out_dir], capture_output=True)
 
     output_file_path = os.path.join(out_dir, name + "_virbarcode_" + date + ".tab")
     expected_file_path = os.path.join(data_dir, name + "_virbarcode.tab")

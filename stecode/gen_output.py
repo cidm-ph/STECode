@@ -1,5 +1,5 @@
 """
-Subscript of vicoSt that converges the 3 input files from the parsers and generate the output file.
+Subscript of STECode that converges the 3 input files from the parsers and generate the output file.
 """
 
 import datetime

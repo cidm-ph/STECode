@@ -1,6 +1,6 @@
 import pytest
 import os
-from vicost import gen_output as go
+from stecode import gen_output as go
 import pandas as pd
 import pandas.testing as pdt
 

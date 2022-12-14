@@ -1,6 +1,6 @@
 """
 Written by @Wytamma
-Modified for vicost by @LilWinx
+Modified for stecode by @LilWinx
 """
 
 import tempfile

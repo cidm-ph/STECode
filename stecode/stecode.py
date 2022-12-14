@@ -1,5 +1,5 @@
 """
-Welcome to the primary script of vicoSt
+Welcome to the primary script of STECode
 Written by Winkie Fong - winkie.fong@health.nsw.gov.au
 """
 
@@ -7,9 +7,9 @@ import argparse
 import logging
 import os
 import sys
-from vicost import assists
-from vicost import cmd_runners
-from vicost import gen_output as go
+from stecode import assists
+from stecode import cmd_runners
+from stecode import gen_output as go
 
 __version__ = "0.0.3"
 logging.getLogger().setLevel(logging.INFO)
@@ -17,11 +17,11 @@ logging.getLogger().setLevel(logging.INFO)
 dependency_list = ["abricate", "samtools", "bwa", "skesa"]
 
 
-def vicost():
+def stecode():
     """
-    Running order of vicoSt
+    Running order of STECode
     """
-    parser = argparse.ArgumentParser(description="vicoSt")
+    parser = argparse.ArgumentParser(description="STECode")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
     parser.add_argument("--R1", help="Path to R1 file")
     parser.add_argument("--R2", help="Path to R2 file")
@@ -32,8 +32,8 @@ def vicost():
         "--version",
         "-v",
         action="version",
-        help="get vicoSt version",
-        version="vicoSt v%s" % __version__,
+        help="get STECode version",
+        version="STECode v%s" % __version__,
     )
     args = vars(parser.parse_args())
     is_assembly = bool(args["fasta"] is not None)
@@ -55,7 +55,7 @@ def vicost():
         outdir = args["outdir"]
 
     logging.info(
-        "Launching vicoSt v%s on %s and writing output files to directory %s",
+        "Launching STECode v%s on %s and writing output files to directory %s",
         __version__,
         args["name"],
         outdir,
@@ -98,7 +98,7 @@ def vicost():
         cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], outdir)
 
-    # vicost portion - file check
+    # stecode portion - file check
     file1 = os.path.join(outdir, args["name"] + "_eaesubtype.tab")
     file3 = os.path.join(outdir, args["name"] + "_sfindAbricate.tab")
 
@@ -111,7 +111,7 @@ def vicost():
         file2 = os.path.join(outdir, args["name"] + "_2recAstxeae.txt")
         assists.check_files(file2)
 
-    # run vicost
+    # run stecode
     go_df = go.merge_all_NNs(
         file1, file2, file3, is_reads, args["name"], args["longread"]
     )
@@ -123,4 +123,4 @@ def vicost():
 
 
 if __name__ == "__main__":
-    vicost()
+    stecode()

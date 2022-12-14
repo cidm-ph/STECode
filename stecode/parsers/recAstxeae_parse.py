@@ -15,7 +15,7 @@ def recA_input(file):
         msg = "This sample did not contain any stx genes, please check again if this sample is STEC. Exiting"
         logging.error(msg)
         sys.exit(1)
-    if stx_df["#rname"].str.contains("vicoSt_normalisation_recA").any() == False:
+    if stx_df["#rname"].str.contains("STECode_normalisation_recA").any() == False:
         msg = "The sample in question did not successfully detect the recA gene in samtools, retry or check manually"
         logging.error(msg)
         sys.exit(1)
@@ -24,7 +24,7 @@ def recA_input(file):
         re_stx_df["#rname"].str.split("_").str.get(-1)
     )  # change this to last not second last.
     filt_stx_df = re_stx_df[re_stx_df["virgene"].str.contains("stx")]
-    div = re_stx_df.loc[re_stx_df["#rname"] == "vicoSt_normalisation_recA"][
+    div = re_stx_df.loc[re_stx_df["#rname"] == "STECode_normalisation_recA"][
         "meandepth"
     ].values[0]
     filt_stx_df["Normalised"] = filt_stx_df["meandepth"] / div

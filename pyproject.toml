@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "vicost"
+name = "stecode"
 version = "0.0.3"
 description = "Virulence barcoding for STEC"
 authors = ["Winkie Fong <Winkie.Fong@health.nsw.gov.au>"]
@@ -19,7 +19,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-vicost = "vicost.vicost:vicost"
+stecode = "stecode.stecode:stecode"
 
 [tool.pytest.ini_options]
 addopts = [
