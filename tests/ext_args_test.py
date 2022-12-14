@@ -21,7 +21,7 @@ name = "test1"
 )
 def test_missing_args(options, expected):
     # testing the exit of not applying an R2
-    result = subprocess.run(["stecode"] + options, capture_output=True)
+    result = subprocess.run(["tests/stecode"] + options, capture_output=True)
 
     # assert that capture output is matching the expected
     lines = result.stderr.splitlines()

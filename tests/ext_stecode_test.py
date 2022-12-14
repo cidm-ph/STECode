@@ -31,7 +31,19 @@ def test_cmd(out_dir, r1, r2, fasta, name):
     date = now.strftime("%Y%m%d")
 
     result = subprocess.run(
-        ["stecode", "--R1", r1, "--R2", r2, "-f", fasta, "-n", name, "-o", out_dir],
+        [
+            "tests/stecode",
+            "--R1",
+            r1,
+            "--R2",
+            r2,
+            "-f",
+            fasta,
+            "-n",
+            name,
+            "-o",
+            out_dir,
+        ],
         capture_output=True,
     )
 
