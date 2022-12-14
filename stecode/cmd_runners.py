@@ -59,6 +59,7 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
     assists.run_cmd(command5)
     assists.run_cmd(command6)
 
+
 def run_solo_abricate(eaesub_db, stecvir_db, name, infile, outdir):
     """
     Run Abricate to get the eaesubtype and stecvirulence for FASTAs only

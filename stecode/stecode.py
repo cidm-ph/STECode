@@ -26,7 +26,12 @@ def stecode():
     parser.add_argument("--R1", help="Path to R1 file")
     parser.add_argument("--R2", help="Path to R2 file")
     parser.add_argument("--fasta", "-f", help="Path to Fasta file")
-    parser.add_argument("--longread", "-l", action="store_true", help="Genome was assembled by long reads")
+    parser.add_argument(
+        "--longread",
+        "-l",
+        action="store_true",
+        help="Genome was assembled by long reads",
+    )
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
     parser.add_argument(
         "--version",
@@ -37,19 +42,19 @@ def stecode():
     )
     args = vars(parser.parse_args())
     is_assembly = bool(args["fasta"] is not None)
-    is_reads = bool(args['R1'] is not None)
+    is_reads = bool(args["R1"] is not None)
 
     # cmd checks
     if is_reads is True:
-        if args['R2'] is None:
+        if args["R2"] is None:
             logging.error("R2 was not provided, please provide the paired reads")
             sys.exit(1)
 
-    if args['outdir'] is None and args['fasta'] is not None:
-        default = os.path.dirname(args['fasta'])
+    if args["outdir"] is None and args["fasta"] is not None:
+        default = os.path.dirname(args["fasta"])
         outdir = default
-    elif args['outdir'] is None and args['R1'] is not None:
-        default = os.path.dirname(args['R1'])
+    elif args["outdir"] is None and args["R1"] is not None:
+        default = os.path.dirname(args["R1"])
         outdir = default
     else:
         outdir = args["outdir"]
@@ -67,9 +72,9 @@ def stecode():
         assists.check_abricate()
 
     ref = os.path.join(os.path.dirname(__file__), "database/stx_recA_eae.fasta")
-   
+
     # checking file integrity and existence of output directory
-    if all(item is not None for item in [args['fasta'], args['R1'], args['R2']]):
+    if all(item is not None for item in [args["fasta"], args["R1"], args["R2"]]):
         assists.check_files(args["R1"])
         assists.check_files(args["R2"])
         assists.check_files(args["fasta"])
@@ -77,17 +82,25 @@ def stecode():
 
         # skip skesa
         cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], outdir)
-        cmd_runners.run_solo_abricate("eaesub", "stecfinder", args["name"], args['fasta'], outdir)
+        cmd_runners.run_solo_abricate(
+            "eaesub", "stecfinder", args["name"], args["fasta"], outdir
+        )
 
     elif is_assembly is True and is_reads is False:
         assists.check_files(args["fasta"])
-        if args['longread'] is True:
-            logging.info("Running only Abricate on already assembled genomes, iso_tox will be CG")
+        if args["longread"] is True:
+            logging.info(
+                "Running only Abricate on already assembled genomes, iso_tox will be CG"
+            )
         else:
-            logging.info("Running only Abricate on already assembled genomes, iso_tox will be DG")
+            logging.info(
+                "Running only Abricate on already assembled genomes, iso_tox will be DG"
+            )
 
         # run only abricate
-        cmd_runners.run_solo_abricate("eaesub", "stecfinder", args["name"], args['fasta'], outdir)
+        cmd_runners.run_solo_abricate(
+            "eaesub", "stecfinder", args["name"], args["fasta"], outdir
+        )
     else:
         assists.check_files(args["R1"])
         assists.check_files(args["R2"])

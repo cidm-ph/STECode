@@ -9,6 +9,7 @@ import sys
 
 heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 
+
 def recA_input(file):
     stx_df = pd.read_csv(file, sep="\t", header=0)
     if stx_df.empty:
@@ -41,7 +42,7 @@ def recA_input(file):
         & (filt_stx_df["virgene"].str.contains("stx2").any()),
         (filt_stx_df["Normalised"] <= 2.2)
         & (filt_stx_df["Normalised"] >= 2)
-        & (filt_stx_df["virgene"] .str.contains("stx1").any()),
+        & (filt_stx_df["virgene"].str.contains("stx1").any()),
         (filt_stx_df["Normalised"] < 2),
     ]
     filt_stx_df["iso_tox"] = np.select(conditions, heirarchy, default="XX")
@@ -52,7 +53,7 @@ def recA_input(file):
         sub_stx_df["iso_tox"], ordered=True, categories=heirarchy
     )
     sub_stx_df.sort_values(by="iso_tox", inplace=True)
-    sub_stx_df.reset_index(drop = True, inplace=True)
+    sub_stx_df.reset_index(drop=True, inplace=True)
     result_df = sub_stx_df.truncate(after=0)
     return result_df
 

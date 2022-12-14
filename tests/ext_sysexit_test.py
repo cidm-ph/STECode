@@ -1,8 +1,9 @@
 import pytest
 import os
 
+
 def test_missing_R2():
-    #importing the subprocess
+    # importing the subprocess
     import subprocess
 
     # testing the exit of not applying an R2
@@ -11,8 +12,10 @@ def test_missing_R2():
     name = "test1"
     result = subprocess.run(["stecode", "--R1", r1, "-n", name], capture_output=True)
 
-    #assert that capture output is matching the expected
+    # assert that capture output is matching the expected
     lines = result.stderr.splitlines()
     last_line = lines[-1]
     assert result.returncode == 1
-    assert last_line == b'ERROR:root:R2 was not provided, please provide the paired reads'
+    assert (
+        last_line == b"ERROR:root:R2 was not provided, please provide the paired reads"
+    )
