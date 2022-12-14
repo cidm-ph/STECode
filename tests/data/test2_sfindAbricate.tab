@@ -1,2 +1,2 @@
 #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
-/Users/winx/Documents/testdir/test2.contigs.fa	Contig_238_43.7373	222	1448	+	stecfinder~~stx1a~~M19473~~stx1a	1-1227/1227	===============	0/0	100.00	100.00	stecfinder		stecfinder~~stx1a~~M19473~~stx1a	
+tests/data/test2.contigs.fa	Contig_238_43.7373	222	1448	+	stecfinder~~stx1a~~M19473~~stx1a	1-1227/1227	===============	0/0	100.00	100.00	stecfinder		stecfinder~~stx1a~~M19473~~stx1a	
