@@ -4,6 +4,7 @@ import sys
 import logging
 import shutil
 import os.path
+import pkg_resources
 
 stecode_db_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database")
 
@@ -57,8 +58,30 @@ def check_folders(folder):
 
 def check_dependencies(cmd_exec):
     cmd_path = shutil.which(cmd_exec)
+    if cmd_exec == "abricate" or cmd_exec == "samtools" or cmd_exec == "skesa":
+        vcmd = subprocess.run([cmd_exec, "--version"], capture_output=True, text=True)
+        result = vcmd.stdout.splitlines()
+        if cmd_exec == "abricate":
+            version = ' '.join(result).replace('abricate ', '')
+            if pkg_resources.parse_version(version) < pkg_resources.parse_version('1.0.0'):
+                logging.critical("Abricate version too old, please upgrade to v1.0.0+")
+                sys.exit(1)
+        if cmd_exec == "samtools":
+            version = result[0].replace('samtools ', '')
+            if pkg_resources.parse_version(version) < pkg_resources.parse_version('1.10'):
+                logging.critical("Samtools version too old, please upgrade to v1.10.0+")
+                sys.exit(1)
+        if cmd_exec == "skesa":
+            version = ' '.join(result).replace('SKESA ', '')
+    if cmd_exec == "bwa":
+        vcmd = subprocess.run(["bwa"], capture_output=True, text=True)
+        result = vcmd.stderr.splitlines()
+        int_res = result[2].replace('Version: ', '')
+        v_parts = int_res.split('-')
+        version = "".join(v_parts[:1])
+
     if cmd_path is not None:
-        msg = "Located " + cmd_exec + " in " + cmd_path
+        msg = "Located " + cmd_exec + " " + version + " in " + cmd_path
         logging.info(msg)
     else:
         msg = cmd_exec + " was not found, please check installation on your device"
@@ -82,3 +105,4 @@ def check_abricate():
     if any(x not in dbs for x in ["eaesub", "stecfinder"]):
         logging.critical("unable to find STECode databases")
         sys.exit(1)
+
