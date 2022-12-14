@@ -10,9 +10,11 @@ import sys
 from stecode import assists
 from stecode import cmd_runners
 from stecode import gen_output as go
+import warnings
 
 __version__ = "0.0.3"
 logging.getLogger().setLevel(logging.INFO)
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 dependency_list = ["abricate", "samtools", "bwa", "skesa"]
 
@@ -130,7 +132,7 @@ def stecode():
     )
     go.gen_output(args["name"], outdir, go_df)
     logging.info(
-        "Complete :D please check %s for the STEC barcode for your sample",
+        "Complete :D we have also made it into a file, please check %s for the STEC barcode for your sample",
         outdir,
     )
 

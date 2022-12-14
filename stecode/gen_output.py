@@ -3,6 +3,7 @@ Subscript of STECode that converges the 3 input files from the parsers and gener
 """
 
 import datetime
+import logging
 from .parsers import eaesubtype_parse as ep
 from .parsers import recAstxeae_parse as rp
 from .parsers import stecvir_parse as vp
@@ -50,3 +51,5 @@ def gen_output(name, output, go_df):
     date = now.strftime("%Y%m%d")
     outfile = os.path.join(output, name + "_virbarcode_" + date + ".tab")
     go_df.to_csv(outfile, sep="\t", index=False)
+    logging.info("Here is your barcode:")
+    print(go_df.to_string(index=False))
