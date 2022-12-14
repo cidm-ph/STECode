@@ -83,7 +83,7 @@ def test_cmd(out_dir, r1, r2, fasta, name):
     last_line = lines[-1]
     assert (
         str(last_line)
-        == "b'INFO:root:Complete :D please check "
+        == "b'INFO:root:Complete :D we have also made it into a file, please check "
         + str(out_dir)
         + " for the STEC barcode for your sample'"
     )
