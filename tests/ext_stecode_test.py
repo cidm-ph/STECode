@@ -2,6 +2,7 @@ import pytest
 import os
 import datetime
 import subprocess
+import sys
 
 data_dir = "tests/data/"
 
@@ -48,6 +49,9 @@ def test_cmd(out_dir, r1, r2, fasta, name):
         ],
         capture_output=True,
     )
+    print(result.stderr.decode("utf-8"), file=sys.stderr)
+
+    assert result.returncode == 0
 
     output_file_path = os.path.join(out_dir, name + "_virbarcode_" + date + ".tab")
     expected_file_path = os.path.join(data_dir, name + "_virbarcode.tab")
@@ -65,7 +69,6 @@ def test_cmd(out_dir, r1, r2, fasta, name):
     # compare the final line with expected output
     lines = result.stderr.splitlines()
     last_line = lines[-1]
-    assert result.returncode == 0
     assert (
         str(last_line)
         == "b'INFO:root:Complete :D please check "

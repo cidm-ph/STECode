@@ -21,7 +21,7 @@ def stecode():
     """
     Running order of STECode
     """
-    parser = argparse.ArgumentParser(description="STECode")
+    parser = argparse.ArgumentParser(description="STECode", prog="stecode")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
     parser.add_argument("--R1", help="Path to R1 file")
     parser.add_argument("--R2", help="Path to R2 file")
