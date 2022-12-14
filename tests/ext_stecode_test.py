@@ -24,6 +24,18 @@ data_dir = "tests/data/"
         ),
     ],
 )
+@pytest.mark.skipif(
+    any(
+        not os.path.exists(os.path.join(data_dir, x))
+        for x in [
+            "test1_trimmed.paired_R1.fq.gz",
+            "test1_trimmed.paired_R2.fq.gz",
+            "test2_trimmed.paired_R1.fq.gz",
+            "test2_trimmed.paired_R2.fq.gz",
+        ]
+    ),
+    reason="Test data not available",
+)
 def test_cmd(out_dir, r1, r2, fasta, name):
     """
     test_cmd

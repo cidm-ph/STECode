@@ -19,6 +19,9 @@ name = "test1"
         ),
     ],
 )
+@pytest.mark.skipif(
+    not (os.path.exists(r1) and os.path.exists(r2)), reason="Test data not available"
+)
 def test_missing_args(options, expected):
     # testing the exit of not applying an R2
     result = subprocess.run(["python3", "-m", "stecode"] + options, capture_output=True)
