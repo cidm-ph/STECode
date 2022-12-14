@@ -32,7 +32,9 @@ def test_cmd(out_dir, r1, r2, fasta, name):
 
     result = subprocess.run(
         [
-            "tests/stecode",
+            "python3",
+            "-m",
+            "stecode",
             "--R1",
             r1,
             "--R2",
