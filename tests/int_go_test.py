@@ -9,14 +9,13 @@ heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 
 
 @pytest.mark.parametrize(
-    "stfile, recAfile, virfile, name, assembly, expected",
+    "stfile, recAfile, virfile, name, expected",
     [
         (
             "test1_eaesubtype.tab",
             "test1_2recAstxeae.txt",
             "test1_sfindAbricate.tab",
             "test1",
-            False,
             {
                 "#Sequence_ID": ["test1"],
                 "eae_sub": ["06"],
@@ -33,7 +32,6 @@ heirarchy = ["12", "02", "01", "T2", "T1", "00"]
             "test2_2recAstxeae.txt",
             "test2_sfindAbricate.tab",
             "test2",
-            False,
             {
                 "#Sequence_ID": ["test2"],
                 "eae_sub": ["03"],
@@ -47,7 +45,7 @@ heirarchy = ["12", "02", "01", "T2", "T1", "00"]
         ),
     ],
 )
-def test_gen_output(stfile, recAfile, virfile, name, assembly, expected):
+def test_gen_output(stfile, recAfile, virfile, name, expected):
     shouldbe = pd.DataFrame(expected)
     shouldbe["iso_tox"] = pd.Categorical(
         shouldbe["iso_tox"], ordered=True, categories=heirarchy
@@ -56,8 +54,9 @@ def test_gen_output(stfile, recAfile, virfile, name, assembly, expected):
         os.path.join(data_dir, stfile),
         os.path.join(data_dir, recAfile),
         os.path.join(data_dir, virfile),
-        assembly,
+        True,
         name,
+        False,
     )
     print(shouldbe)
     print(result)

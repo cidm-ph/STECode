@@ -1,20 +1,28 @@
 import pytest
 import os
-import datetime
-from .utils import cmd_runner
+import subprocess
 
-vicost_cmd = cmd_runner(["python", "-m", "vicost"])
-
+data_dir = "tests/data/"
+r1 = os.path.join(data_dir, "test1_trimmed.paired_R1.fq.gz")
+r2 = os.path.join(data_dir, "test1_trimmed.paired_R2.fq.gz")
+fasta = os.path.join(data_dir, "test1.contigs.fa")
+name = "test1"
 
 @pytest.mark.parametrize(
     "options,expected",
     [
-        ([], "the following arguments are required: --name/-n"),
+        ([], b'vicost: error: the following arguments are required: --name/-n'),
+        (["--R1", r1], b'vicost: error: the following arguments are required: --name/-n')
     ],
 )
+
 def test_missing_args(options, expected):
-    out, err, code = vicost_cmd(options)
-    print(out, err, code)
-    assert code == 2
-    assert expected in err
-    assert out == ""
+    # testing the exit of not applying an R2
+    result = subprocess.run(["vicost"] + options, capture_output=True)
+
+    #assert that capture output is matching the expected
+    lines = result.stderr.splitlines()
+    last_line = lines[-1]
+    assert result.returncode == 2
+    assert last_line == expected
+
