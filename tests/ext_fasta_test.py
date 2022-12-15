@@ -83,5 +83,3 @@ def test_cmd(out_dir, fasta, name, longread, expected):
 
     # compare lines
     assert str(result.stdout) == expected
-
-    # compare the final line with expected output
