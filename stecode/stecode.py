@@ -14,7 +14,7 @@ import warnings
 
 __version__ = "0.0.3"
 logging.getLogger().setLevel(logging.INFO)
-warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 dependency_list = ["abricate", "samtools", "bwa", "skesa"]
 
