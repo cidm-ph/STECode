@@ -90,9 +90,9 @@ def stecode():
         # skip skesa
         for ref in ref_list:
             ref_path = os.path.join(
-                os.path.dirname(__file__), "database/stxrecaeae", ref
+                os.path.dirname(__file__), "database/stxrecaeae/"
             )
-            cmd_runners.run_bwa(args["R1"], args["R2"], ref_path, args["name"], outdir)
+        cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args["name"], args["fasta"], outdir
         )
