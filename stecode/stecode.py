@@ -17,6 +17,7 @@ logging.getLogger().setLevel(logging.INFO)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 dependency_list = ["abricate", "samtools", "bwa", "skesa"]
+ref_list = []
 
 
 def stecode():
@@ -73,7 +74,11 @@ def stecode():
     if "abricate" in dependency_list:
         assists.check_abricate()
 
-    ref = os.path.join(os.path.dirname(__file__), "database/stx_recA_eae.fasta")
+    for file in os.listdir(
+        os.path.join(os.path.dirname(__file__), "database/stxrecaeae")
+    ):
+        if file.endswith(".fasta"):
+            ref_list.append(file)
 
     # checking file integrity and existence of output directory
     if all(item is not None for item in [args["fasta"], args["R1"], args["R2"]]):
@@ -83,7 +88,11 @@ def stecode():
         logging.info("Found fasta, R1 and R2, skipping Skesa")
 
         # skip skesa
-        cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], outdir)
+        for ref in ref_list:
+            ref_path = os.path.join(
+                os.path.dirname(__file__), "database/stxrecaeae", ref
+            )
+            cmd_runners.run_bwa(args["R1"], args["R2"], ref_path, args["name"], outdir)
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args["name"], args["fasta"], outdir
         )
@@ -109,7 +118,11 @@ def stecode():
         assists.check_folders(outdir)
 
         # Run bwa, samtools, skesa and abricate
-        cmd_runners.run_bwa(args["R1"], args["R2"], ref, args["name"], outdir)
+        for ref in ref_list:
+            ref_path = os.path.join(
+                os.path.dirname(__file__), "database/stxrecaeae", ref
+            )
+            cmd_runners.run_bwa(args["R1"], args["R2"], ref_path, args["name"], outdir)
         cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], outdir)
 
