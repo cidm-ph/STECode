@@ -31,6 +31,7 @@ def check_files(file):
     """
     Check input files if they exist and have contents
     """
+
     if os.path.isfile(file) is True and os.stat(file).st_size != 0:
         truemsg = file + " exists and not empty, continuing..."
         logging.info(truemsg)
