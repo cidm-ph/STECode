@@ -115,7 +115,7 @@ def stecode():
                 os.path.dirname(__file__), "database/stxrecaeae/"
             )
         ref = "STECode_normalisation_stxrecAeae.fasta"
-#        cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
+        cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
         subref_path = outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
         subref_list = cmd_runners.get_subref(subref_path)
         if args["parallel"] is False:
@@ -161,9 +161,16 @@ def stecode():
         assists.check_folders(outdir)
 
         # Run bwa, samtools, skesa and abricate
+        ref_path = os.path.join(
+                os.path.dirname(__file__), "database/stxrecaeae/"
+            )
+        ref = "STECode_normalisation_stxrecAeae.fasta"
+        cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
+        subref_path = outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
+        subref_list = cmd_runners.get_subref(subref_path)
         if args["parallel"] is False:
-            for ref in ref_list:
-                cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
+            for subref in subref_list:
+                cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + subref + ".fasta", args["name"], outdir)
             cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
         if args["parallel"] is True:

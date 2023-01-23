@@ -49,7 +49,7 @@ def combine_stxrecaeae(name, outdir):
         outfile.write(header + "\n")
         outfile.close()
     for file in os.listdir(bamdir):
-        if file.endswith(".txt"):
+        if not file.endswith("_stxrecAeae.txt") and file.endswith(".txt"):
             with open(bamdir + "/" + file, 'r') as txtfile:
                 lines = txtfile.readlines()
             with open(stxrecaeae_file, "a") as outfile:
@@ -71,7 +71,7 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
     Run Abricate to get the eaesubtype and stecvirulence
     """
     stuffdir = outdir + "/" + name
-    command5 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {outdir}/{name}.contigs.fa > {stuffdir}/{name}_eaesubtype.tab"
+    command5 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {stuffdir}/{name}.contigs.fa > {stuffdir}/{name}_eaesubtype.tab"
     command6 = f"abricate --datadir {assists.stecode_db_dir} --mincov 21 --db {stecvir_db} {stuffdir}/{name}.contigs.fa > {stuffdir}/{name}_sfindAbricate.tab"
     assists.run_cmd(command5)
     assists.run_cmd(command6)
