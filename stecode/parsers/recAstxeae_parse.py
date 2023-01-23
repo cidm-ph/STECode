@@ -10,6 +10,7 @@ import numpy as np
 
 heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 
+
 def recA_input(file):
     stx_df = pd.read_csv(file, sep="\t")
     if stx_df.empty:

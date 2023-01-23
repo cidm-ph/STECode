@@ -35,22 +35,24 @@ def run_bwa(fq1, fq2, ref, name, outdir):
     assists.run_cmd(command2)
     assists.run_cmd(command3)
 
+
 def get_subref(file):
     sid_df = pd.read_csv(file, sep="\t")
     subref_df = sid_df[sid_df["coverage"] >= 90]
-    return subref_df['#rname'].tolist()
+    return subref_df["#rname"].tolist()
+
 
 def combine_stxrecaeae(name, outdir):
     bamdir = outdir + "/" + name + "/bams"
     stuffdir = outdir + "/" + name
-    stxrecaeae_file = stuffdir + "/" +name +"_2recAstxeae.txt"
-    header = '\t'.join(col_names)
+    stxrecaeae_file = stuffdir + "/" + name + "_2recAstxeae.txt"
+    header = "\t".join(col_names)
     with open(stxrecaeae_file, "w") as outfile:
         outfile.write(header + "\n")
         outfile.close()
     for file in os.listdir(bamdir):
         if not file.endswith("_stxrecAeae.txt") and file.endswith(".txt"):
-            with open(bamdir + "/" + file, 'r') as txtfile:
+            with open(bamdir + "/" + file, "r") as txtfile:
                 lines = txtfile.readlines()
             with open(stxrecaeae_file, "a") as outfile:
                 outfile.writelines(lines[-1:])
