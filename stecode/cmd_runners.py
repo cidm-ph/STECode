@@ -25,7 +25,7 @@ def run_bwa(fq1, fq2, ref, name, outdir):
     """
     Run BWA and Samtools to generate the 2recAstxeae text file.
     """
-    refname = ref.split("_")[2][:-6]
+    refname = os.path.split(ref)[1].split("_")[2][:-6]
     bamdir = outdir + "/" + name + "/bams"
     command1 = f"bwa mem -t 8 {ref} {fq1} {fq2} | samtools view --threads 8 -b -S | samtools sort --threads 8 -o {bamdir}/{name}_{refname}.sorted.bam"
     command2 = f"samtools index -b {bamdir}/{name}_{refname}.sorted.bam"

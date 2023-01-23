@@ -49,7 +49,7 @@ def stecode():
         "--parallel",
         "-p",
         action="store_true",
-        help="Parallelise the mapping portion to if computer allows",
+        help="Parallelise the mapping portion if computer allows",
     )
     args = vars(parser.parse_args())
     is_assembly = bool(args["fasta"] is not None)
