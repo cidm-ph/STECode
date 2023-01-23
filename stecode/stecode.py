@@ -7,10 +7,12 @@ import argparse
 import logging
 import os
 import sys
+import warnings
+import concurrent.futures
 from stecode import assists
 from stecode import cmd_runners
 from stecode import gen_output as go
-import warnings
+
 
 __version__ = "0.0.3"
 logging.getLogger().setLevel(logging.INFO)
@@ -41,8 +43,9 @@ def stecode():
         "-v",
         action="version",
         help="get STECode version",
-        version="STECode v%s" % __version__,
+        version=f"STECode v{__version__}"
     )
+    parser.add_argument("--parallel", "-p", action="store_true", help = "Parallelise the mapping portion to if computer allows")
     args = vars(parser.parse_args())
     is_assembly = bool(args["fasta"] is not None)
     is_reads = bool(args["R1"] is not None)
@@ -52,7 +55,8 @@ def stecode():
         if args["R2"] is None:
             logging.error("R2 was not provided, please provide the paired reads")
             sys.exit(1)
-
+    
+    # set outdir defaults - if no outdir is set, it will default to either the fasta or R1 location 
     if args["outdir"] is None and args["fasta"] is not None:
         default = os.path.dirname(args["fasta"])
         outdir = default
@@ -62,18 +66,37 @@ def stecode():
     else:
         outdir = args["outdir"]
 
+    # force creation of new folder within set outdir
+    newdir = outdir + "/" + args["name"] + "/bams"
+    is_path_exists = os.path.exists(newdir)
+    if is_path_exists is True:
+        logging.info(
+            "%s exists, skipping directory creation",
+            newdir
+        )
+    else:
+        logging.info(
+            "%s does not exist, creating directory.",
+            newdir
+        )
+        os.makedirs(newdir)
+    
+    # launch line 
     logging.info(
         "Launching STECode v%s on %s and writing output files to directory %s",
         __version__,
         args["name"],
         outdir,
     )
+
+    # checking all the versions and installations of dependencies.
     logging.info("Checking installs of dependencies")
     for dependency in dependency_list:
         assists.check_dependencies(dependency)
     if "abricate" in dependency_list:
         assists.check_abricate()
 
+    # create the ref_list
     for file in os.listdir(
         os.path.join(os.path.dirname(__file__), "database/stxrecaeae")
     ):
@@ -92,7 +115,22 @@ def stecode():
             ref_path = os.path.join(
                 os.path.dirname(__file__), "database/stxrecaeae/"
             )
-        cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
+        if args["parallel"] is False:
+            for ref in ref_list:
+                cmd_runners.run_bwa(args["R1"], args["R2"], ref_path + ref, args["name"], outdir)
+        if args["parallel"] is True:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+                future_to_bam = {
+                    executor.submit(
+                        cmd_runners.run_bwa, args["R1"], args["R2"], ref_path + ref, args["name"], outdir
+                    ): ref for ref in ref_list
+                }
+                for future in concurrent.futures.as_completed(future_to_bam):
+                    bam = future_to_bam[future]
+                    try:
+                        data = future.result()
+                    except Exception as exc:
+                        logging.error("%s generated an exception: %s", bam, exc)
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args["name"], args["fasta"], outdir
         )
