@@ -9,37 +9,9 @@ import numpy as np
 
 
 heirarchy = ["12", "02", "01", "T2", "T1", "00"]
-col_names = [
-    "#rname",
-    "startpos",
-    "endpos",
-    "numreads",
-    "covbases",
-    "coverage",
-    "meandepth",
-    "meanbaseq",
-    "meanmapq",
-]
-
-def combine_stxrecaeae(name, outdir):
-    bamdir = outdir + "/" + name + "/bams"
-    stuffdir = outdir + "/" + name
-    stxrecaeae_file = stuffdir + "/" +name +"_2recAstxeae.txt"
-    header = '\t'.join(col_names)
-    with open(stxrecaeae_file, "w") as outfile:
-        outfile.write(header + "\n")
-        outfile.close()
-    for file in os.listdir(bamdir):
-        if file.endswith(".txt"):
-            with open(bamdir + "/" + file, 'r') as txtfile:
-                lines = txtfile.readlines()
-            with open(stxrecaeae_file, "a") as outfile:
-                outfile.writelines(lines[-1:])
-
-    logging.info("Creating %s", stxrecaeae_file)
 
 def recA_input(file):
-    stx_df = pd.read_csv(file, sep="\t", names=col_names)
+    stx_df = pd.read_csv(file, sep="\t")
     if stx_df.empty:
         msg = "This sample did not contain any stx genes, please check again if this sample is STEC. Exiting"
         logging.error(msg)
@@ -96,7 +68,3 @@ def run_skip(longread):
     else:
         stx_df = pd.DataFrame({"virgene": ["N/A"], "iso_tox": ["DG"]})
     return stx_df
-
-# def delete_list()
-
-print(combine_stxrecaeae("22-001-0092", "/Users/winx/Documents/reads_for_testing/stecode"))
