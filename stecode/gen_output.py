@@ -49,7 +49,7 @@ def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
 def gen_output(name, output, go_df):
     now = datetime.datetime.now()
     date = now.strftime("%Y%m%d")
-    outfile = os.path.join(output, name + "_virbarcode_" + date + ".tab")
+    outfile = os.path.join(output, name, name + "_virbarcode_" + date + ".tab")
     go_df.to_csv(outfile, sep="\t", index=False)
     logging.info("Here is your barcode:")
     print(go_df.to_string(index=False))
