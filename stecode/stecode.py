@@ -71,6 +71,14 @@ def stecode():
     else:
         outdir = args["outdir"]
 
+    # launch line
+    logging.info(
+        "Launching STECode v%s on %s and writing output files to directory %s",
+        __version__,
+        args["name"],
+        outdir,
+    )
+
     # force creation of new folder within set outdir
     newdir = outdir + "/" + args["name"] + "/bams"
     is_path_exists = os.path.exists(newdir)
@@ -80,27 +88,12 @@ def stecode():
         logging.info("%s does not exist, creating directory.", newdir)
         os.makedirs(newdir)
 
-    # launch line
-    logging.info(
-        "Launching STECode v%s on %s and writing output files to directory %s",
-        __version__,
-        args["name"],
-        outdir,
-    )
-
     # checking all the versions and installations of dependencies.
     logging.info("Checking installs of dependencies")
     for dependency in dependency_list:
         assists.check_dependencies(dependency)
     if "abricate" in dependency_list:
         assists.check_abricate()
-
-    # create the ref_list
-    for file in os.listdir(
-        os.path.join(os.path.dirname(__file__), "database/stxrecaeae")
-    ):
-        if file.endswith(".fasta"):
-            ref_list.append(file)
 
     # checking file integrity and existence of output directory
     if all(item is not None for item in [args["fasta"], args["R1"], args["R2"]]):
@@ -137,7 +130,7 @@ def stecode():
                         cmd_runners.run_bwa,
                         args["R1"],
                         args["R2"],
-                        ref_path + ref,
+                        ref_path + subref + ".fasta",
                         args["name"],
                         outdir,
                     ): ref
@@ -149,9 +142,7 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-        cmd_runners.run_solo_abricate(
-            "eaesub", "stecfinder", args["name"], args["fasta"], outdir
-        )
+                cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
     elif is_assembly is True and is_reads is False:
         assists.check_files(args["fasta"])
@@ -201,7 +192,7 @@ def stecode():
                         cmd_runners.run_bwa,
                         args["R1"],
                         args["R2"],
-                        ref_path + ref,
+                        ref_path + subref + ".fasta",
                         args["name"],
                         outdir,
                     ): ref
@@ -213,6 +204,7 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
+                cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
         cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], outdir)
