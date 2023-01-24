@@ -37,6 +37,7 @@ def stecode():
         action="store_true",
         help="Genome was assembled by long reads",
     )
+    parser.add_argument("--threads", "-t", help="Specify number of threads used")
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
     parser.add_argument(
         "--version",
@@ -71,12 +72,19 @@ def stecode():
     else:
         outdir = args["outdir"]
 
+    # set threads defaults - if no threads are set, it will default to 4 threads
+    if args["threads"] is None:
+        default_threads = 4
+    else:
+        default_threads = args["threads"]
+
     # launch line
     logging.info(
-        "Launching STECode v%s on %s and writing output files to directory %s",
+        "Launching STECode v%s on %s and writing output files to directory %s using %s threads",
         __version__,
         args["name"],
         outdir,
+        default_threads
     )
 
     # force creation of new folder within set outdir
@@ -106,7 +114,7 @@ def stecode():
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(
-            args["R1"], args["R2"], ref_path + ref, args["name"], outdir
+            args["R1"], args["R2"], ref_path + ref, args["name"], outdir, default_threads
         )
         subref_path = (
             outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
@@ -120,6 +128,7 @@ def stecode():
                     ref_path + subref + ".fasta",
                     args["name"],
                     outdir,
+                    default_threads
                 )
             cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
@@ -133,8 +142,9 @@ def stecode():
                         ref_path + subref + ".fasta",
                         args["name"],
                         outdir,
-                    ): ref
-                    for ref in ref_list
+                        default_threads
+                    ): subref
+                    for subref in subref_list
                 }
                 for future in concurrent.futures.as_completed(future_to_bam):
                     bam = future_to_bam[future]
@@ -142,7 +152,7 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-                cmd_runners.combine_stxrecaeae(args["name"], outdir)
+            cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
     elif is_assembly is True and is_reads is False:
         assists.check_files(args["fasta"])
@@ -168,7 +178,7 @@ def stecode():
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(
-            args["R1"], args["R2"], ref_path + ref, args["name"], outdir
+            args["R1"], args["R2"], ref_path + ref, args["name"], outdir, default_threads
         )
         subref_path = (
             outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
@@ -182,6 +192,7 @@ def stecode():
                     ref_path + subref + ".fasta",
                     args["name"],
                     outdir,
+                    default_threads
                 )
             cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
@@ -195,8 +206,9 @@ def stecode():
                         ref_path + subref + ".fasta",
                         args["name"],
                         outdir,
-                    ): ref
-                    for ref in ref_list
+                        default_threads
+                    ): subref
+                    for subref in subref_list
                 }
                 for future in concurrent.futures.as_completed(future_to_bam):
                     bam = future_to_bam[future]
@@ -204,7 +216,7 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-                cmd_runners.combine_stxrecaeae(args["name"], outdir)
+            cmd_runners.combine_stxrecaeae(args["name"], outdir)
 
         cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], outdir)
