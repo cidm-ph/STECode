@@ -115,7 +115,7 @@ def stecode():
                     executor.submit(
                         cmd_runners.run_bwa,
                         outdir,
-                        subref_path + subref + ".fasta",
+                        ref_path + subref + ".fasta",
                         default_threads
                     ): subref
                     for subref in subref_list
@@ -181,7 +181,7 @@ def stecode():
                     executor.submit(
                         cmd_runners.run_bwa,
                         outdir,
-                        subref_path + subref + ".fasta",
+                        ref_path + subref + ".fasta",
                         default_threads
                     ): subref
                     for subref in subref_list
