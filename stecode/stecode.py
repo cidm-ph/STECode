@@ -119,7 +119,7 @@ def stecode():
         subref_path = (
             outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
         )
-        subref_list = cmd_runners.get_subref(subref_path)
+        subref_list = cmd_runners.get_subref(subref_path).remove("STECode_normalisation_eae")
         if args["parallel"] is False:
             for subref in subref_list:
                 cmd_runners.run_bwa(
