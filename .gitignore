@@ -3,6 +3,7 @@ __pycache__
 .vs_code
 launch.json
 settings.json
+.pylintrc
 
 # abricate indexes
 *.ndb
