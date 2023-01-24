@@ -100,14 +100,6 @@ def stecode():
         subref_list = cmd_runners.get_subref(subref_path)
         if "STECode_normalisation_eae" in subref_list:
             subref_list.remove("STECode_normalisation_eae")
-        if args.parallel is False:
-            for subref in subref_list:
-                 cmd_runners.run_bwa(
-                    outdir,
-                    ref_path + subref + ".fasta",
-                    default_threads
-                ) 
-            cmd_runners.combine_stxrecaeae(args.name, outdir)
 
         if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -126,7 +118,14 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-            cmd_runners.combine_stxrecaeae(args.name, outdir)
+        else:
+            for subref in subref_list:
+                 cmd_runners.run_bwa(
+                    outdir,
+                    ref_path + subref + ".fasta",
+                    default_threads
+                ) 
+        cmd_runners.combine_stxrecaeae(args.name, outdir)
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args.name, args.fasta, outdir
         )
@@ -166,15 +165,6 @@ def stecode():
         subref_list = cmd_runners.get_subref(subref_path)
         if "STECode_normalisation_eae" in subref_list:
             subref_list.remove("STECode_normalisation_eae")
-        if args.parallel is False:
-            for subref in subref_list:
-                 cmd_runners.run_bwa(
-                    outdir,
-                    ref_path + subref + ".fasta",
-                    default_threads
-                ) 
-            cmd_runners.combine_stxrecaeae(args.name, outdir)
-
         if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_bam = {
@@ -192,7 +182,14 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-            cmd_runners.combine_stxrecaeae(args.name, outdir)
+        else:
+            for subref in subref_list:
+                 cmd_runners.run_bwa(
+                    outdir,
+                    ref_path + subref + ".fasta",
+                    default_threads
+                ) 
+        cmd_runners.combine_stxrecaeae(args.name, outdir)
         cmd_runners.run_skesa(args.R1, args.R2, args.name, outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
 
