@@ -7,6 +7,12 @@ import os
 import logging
 import pandas as pd
 import numpy as np
+from stecode import arguments
+
+
+parser = arguments.create_parser() # pylint: disable=E1101
+
+args = parser.parse_args()
 
 col_names = [
     "#rname",
@@ -20,16 +26,15 @@ col_names = [
     "meanmapq",
 ]
 
-
-def run_bwa(fq1, fq2, ref, name, outdir, threads):
+def run_bwa(outdir, ref, threads):
     """
     Run BWA and Samtools to generate the 2recAstxeae text file.
     """
     refname = os.path.split(ref)[1].split("_")[2][:-6]
-    bamdir = outdir + "/" + name + "/bams"
-    command1 = f"bwa mem -t {threads} {ref} {fq1} {fq2} | samtools view --threads {threads} -b -S | samtools sort --threads {threads} -o {bamdir}/{name}_{refname}.sorted.bam"
-    command2 = f"samtools index -b {bamdir}/{name}_{refname}.sorted.bam"
-    command3 = f"samtools coverage {bamdir}/{name}_{refname}.sorted.bam > {bamdir}/{name}_{refname}.txt"
+    bamdir = outdir + "/" + args.name + "/bams"
+    command1 = f"bwa mem -t {threads} {ref} {args.R1} {args.R2} | samtools view --threads {threads} -b -S | samtools sort --threads {threads} -o {bamdir}/{args.name}_{refname}.sorted.bam"
+    command2 = f"samtools index -b {bamdir}/{args.name}_{refname}.sorted.bam"
+    command3 = f"samtools coverage {bamdir}/{args.name}_{refname}.sorted.bam > {bamdir}/{args.name}_{refname}.txt"
 
     assists.run_cmd(command1)
     assists.run_cmd(command2)

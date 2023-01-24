@@ -3,12 +3,12 @@ Welcome to the primary script of STECode
 Written by Winkie Fong - winkie.fong@health.nsw.gov.au
 """
 
-import argparse
 import logging
 import os
 import sys
 import warnings
 import concurrent.futures
+from stecode import arguments
 from stecode import assists
 from stecode import cmd_runners
 from stecode import gen_output as go
@@ -26,69 +26,45 @@ def stecode():
     """
     Running order of STECode
     """
-    parser = argparse.ArgumentParser(description="STECode", prog="stecode")
-    parser.add_argument("--outdir", "-o", help="Output directory to write to")
-    parser.add_argument("--R1", help="Path to R1 file")
-    parser.add_argument("--R2", help="Path to R2 file")
-    parser.add_argument("--fasta", "-f", help="Path to Fasta file")
-    parser.add_argument(
-        "--longread",
-        "-l",
-        action="store_true",
-        help="Genome was assembled by long reads",
-    )
-    parser.add_argument("--threads", "-t", help="Specify number of threads used")
-    parser.add_argument("--name", "-n", help="Name of sample", required=True)
-    parser.add_argument(
-        "--version",
-        "-v",
-        action="version",
-        help="get STECode version",
-        version=f"STECode v{__version__}",
-    )
-    parser.add_argument(
-        "--parallel",
-        "-p",
-        action="store_true",
-        help="Parallelise the mapping portion if computer allows",
-    )
-    args = vars(parser.parse_args())
-    is_assembly = bool(args["fasta"] is not None)
-    is_reads = bool(args["R1"] is not None)
+    parser = arguments.create_parser() # pylint: disable=E1101
+    args = parser.parse_args()
+    is_assembly = bool(args.fasta is not None)
+    is_reads = bool(args.R1 is not None)
 
     # cmd checks
     if is_reads is True:
-        if args["R2"] is None:
+        if args.R2 is None:
             logging.error("R2 was not provided, please provide the paired reads")
             sys.exit(1)
 
     # set outdir defaults - if no outdir is set, it will default to either the fasta or R1 location
-    if args["outdir"] is None and args["fasta"] is not None:
-        default = os.path.dirname(args["fasta"])
+    if args.outdir is None and args.fasta is not None:
+        default = os.path.dirname(args.fasta)
         outdir = default
-    elif args["outdir"] is None and args["R1"] is not None:
-        default = os.path.dirname(args["R1"])
+    elif args.outdir is None and args.R1 is not None:
+        default = os.path.dirname(args.R1)
         outdir = default
     else:
-        outdir = args["outdir"]
+        outdir = args.outdir
+
 
     # set threads defaults - if no threads are set, it will default to 4 threads
-    if args["threads"] is None:
+    if args.threads is None:
         default_threads = 4
     else:
-        default_threads = args["threads"]
+        default_threads = args.threads
 
     # launch line
     logging.info(
         "Launching STECode v%s on %s and writing output files to directory %s using %s threads",
         __version__,
-        args["name"],
+        args.name,
         outdir,
-        default_threads
+        args.threads
     )
 
     # force creation of new folder within set outdir
-    newdir = outdir + "/" + args["name"] + "/bams"
+    newdir = outdir + "/" + args.name + "/bams"
     is_path_exists = os.path.exists(newdir)
     if is_path_exists is True:
         logging.info("%s exists, skipping directory creation", newdir)
@@ -104,44 +80,42 @@ def stecode():
         assists.check_abricate()
 
     # checking file integrity and existence of output directory
-    if all(item is not None for item in [args["fasta"], args["R1"], args["R2"]]):
-        assists.check_files(args["R1"])
-        assists.check_files(args["R2"])
-        assists.check_files(args["fasta"])
+    if all(item is not None for item in [args.fasta, args.R1, args.R2]):
+        assists.check_files(args.R1)
+        assists.check_files(args.R2)
+        assists.check_files(args.fasta)
         logging.info("Found fasta, R1 and R2, skipping Skesa")
 
         # skip skesa
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(
-            args["R1"], args["R2"], ref_path + ref, args["name"], outdir, default_threads
-        )
+            outdir,
+            ref_path + ref,
+            default_threads
+        ) 
         subref_path = (
-            outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
+            outdir + "/" + args.name + "/bams/" + args.name + "_stxrecAeae.txt"
         )
-        subref_list = cmd_runners.get_subref(subref_path).remove("STECode_normalisation_eae")
-        if args["parallel"] is False:
+        subref_list = cmd_runners.get_subref(subref_path)
+        if "STECode_normalisation_eae" in subref_list:
+            subref_list.remove("STECode_normalisation_eae")
+        if args.parallel is False:
             for subref in subref_list:
-                cmd_runners.run_bwa(
-                    args["R1"],
-                    args["R2"],
-                    ref_path + subref + ".fasta",
-                    args["name"],
+                 cmd_runners.run_bwa(
                     outdir,
+                    ref_path + subref + ".fasta",
                     default_threads
-                )
-            cmd_runners.combine_stxrecaeae(args["name"], outdir)
+                ) 
+            cmd_runners.combine_stxrecaeae(args.name, outdir)
 
-        if args["parallel"] is True:
+        if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_bam = {
                     executor.submit(
                         cmd_runners.run_bwa,
-                        args["R1"],
-                        args["R2"],
-                        ref_path + subref + ".fasta",
-                        args["name"],
                         outdir,
+                        subref_path + subref + ".fasta",
                         default_threads
                     ): subref
                     for subref in subref_list
@@ -152,11 +126,14 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-            cmd_runners.combine_stxrecaeae(args["name"], outdir)
+            cmd_runners.combine_stxrecaeae(args.name, outdir)
+        cmd_runners.run_solo_abricate(
+            "eaesub", "stecfinder", args.name, args.fasta, outdir
+        )
 
     elif is_assembly is True and is_reads is False:
-        assists.check_files(args["fasta"])
-        if args["longread"] is True:
+        assists.check_files(args.fasta)
+        if args.longread is True:
             logging.info(
                 "Running only Abricate on already assembled genomes, iso_tox will be CG"
             )
@@ -167,45 +144,44 @@ def stecode():
 
         # run only abricate
         cmd_runners.run_solo_abricate(
-            "eaesub", "stecfinder", args["name"], args["fasta"], outdir
+            "eaesub", "stecfinder", args.name, args.fasta, outdir
         )
+        
     else:
-        assists.check_files(args["R1"])
-        assists.check_files(args["R2"])
+        assists.check_files(args.R1)
+        assists.check_files(args.R2)
         assists.check_folders(outdir)
 
         # Run bwa, samtools, skesa and abricate
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(
-            args["R1"], args["R2"], ref_path + ref, args["name"], outdir, default_threads
-        )
+            outdir,
+            ref_path + ref,
+            default_threads
+        ) 
         subref_path = (
-            outdir + "/" + args["name"] + "/bams/" + args["name"] + "_stxrecAeae.txt"
+            outdir + "/" + args.name + "/bams/" + args.name + "_stxrecAeae.txt"
         )
         subref_list = cmd_runners.get_subref(subref_path)
-        if args["parallel"] is False:
+        if "STECode_normalisation_eae" in subref_list:
+            subref_list.remove("STECode_normalisation_eae")
+        if args.parallel is False:
             for subref in subref_list:
-                cmd_runners.run_bwa(
-                    args["R1"],
-                    args["R2"],
-                    ref_path + subref + ".fasta",
-                    args["name"],
+                 cmd_runners.run_bwa(
                     outdir,
+                    ref_path + subref + ".fasta",
                     default_threads
-                )
-            cmd_runners.combine_stxrecaeae(args["name"], outdir)
+                ) 
+            cmd_runners.combine_stxrecaeae(args.name, outdir)
 
-        if args["parallel"] is True:
+        if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_bam = {
                     executor.submit(
                         cmd_runners.run_bwa,
-                        args["R1"],
-                        args["R2"],
-                        ref_path + subref + ".fasta",
-                        args["name"],
                         outdir,
+                        subref_path + subref + ".fasta",
                         default_threads
                     ): subref
                     for subref in subref_list
@@ -216,15 +192,14 @@ def stecode():
                         data = future.result()
                     except Exception as exc:
                         logging.error("%s generated an exception: %s", bam, exc)
-            cmd_runners.combine_stxrecaeae(args["name"], outdir)
-
-        cmd_runners.run_skesa(args["R1"], args["R2"], args["name"], outdir)
-        cmd_runners.run_abricate("eaesub", "stecfinder", args["name"], outdir)
+            cmd_runners.combine_stxrecaeae(args.name, outdir)
+        cmd_runners.run_skesa(args.R1, args.R2, args.name, outdir)
+        cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
 
     # stecode portion - file check
-    file1 = os.path.join(outdir, args["name"] + "/" + args["name"] + "_eaesubtype.tab")
+    file1 = os.path.join(outdir, args.name + "/" + args.name + "_eaesubtype.tab")
     file3 = os.path.join(
-        outdir, args["name"] + "/" + args["name"] + "_sfindAbricate.tab"
+        outdir, args.name + "/" + args.name + "_sfindAbricate.tab"
     )
 
     assists.check_files(file1)
@@ -234,15 +209,15 @@ def stecode():
         file2 = "skip"
     else:
         file2 = os.path.join(
-            outdir, args["name"] + "/" + args["name"] + "_2recAstxeae.txt"
+            outdir, args.name + "/" + args.name + "_2recAstxeae.txt"
         )
         assists.check_files(file2)
 
     # run stecode
     go_df = go.merge_all_NNs(
-        file1, file2, file3, is_reads, args["name"], args["longread"]
+        file1, file2, file3, is_reads, args.name, args.longread
     )
-    go.gen_output(args["name"], outdir, go_df)
+    go.gen_output(args.name, outdir, go_df)
     logging.info(
         "Complete :D we have also made it into a file, please check %s for the STEC barcode for your sample",
         outdir,
