@@ -7,7 +7,7 @@ import os
 import logging
 import pandas as pd
 import numpy as np
-from stecode import arguments
+from . import arguments
 
 
 parser = arguments.create_parser() # pylint: disable=E1101
