@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 
 
+choices = ["02", "01", "T2", "T1", "00"]
 heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 
 
@@ -36,23 +37,25 @@ def recA_input(file):
     filt_stx_df["Normalised"] = filt_stx_df["meandepth"] / div
     conditions = [
         (filt_stx_df["Normalised"] > 2.1)
-        & (filt_stx_df["virgene"].str.contains("stx1").any())
-        & (filt_stx_df["virgene"].str.contains("stx2").any()),  # Triggers 12
+        & (filt_stx_df["virgene"].str.contains("stx2")),  # Triggers 02
         (filt_stx_df["Normalised"] > 2.1)
-        & (filt_stx_df["virgene"].str.contains("stx2").any()),  # Triggers 02
-        (filt_stx_df["Normalised"] > 2.1)
-        & (filt_stx_df["virgene"].str.contains("stx1").any()),  # Triggers 01
+        & (filt_stx_df["virgene"].str.contains("stx1")),  # Triggers 01
         (filt_stx_df["Normalised"] <= 2.1)
         & (filt_stx_df["Normalised"] >= 2)
-        & (filt_stx_df["virgene"].str.contains("stx2").any()),  # Triggers T2
+        & (filt_stx_df["virgene"].str.contains("stx2")),  # Triggers T2
         (filt_stx_df["Normalised"] <= 2.1)
         & (filt_stx_df["Normalised"] >= 2)
-        & (filt_stx_df["virgene"].str.contains("stx1").any()),  # Triggers T1
+        & (filt_stx_df["virgene"].str.contains("stx1")),  # Triggers T1
         (filt_stx_df["Normalised"] < 2),  # Triggers 00
     ]
-    filt_stx_df["iso_tox"] = np.select(conditions, heirarchy, default="XX")
+    filt_stx_df["iso_tox"] = np.select(conditions, choices, default="XX")
     sub_stx_df = filt_stx_df.drop_duplicates(subset=["virgene"])
     keep_cols = ["virgene", "iso_tox"]
+    sub_stx_df.loc[:, "iso_tox"] = np.where(
+        (sub_stx_df["iso_tox"] == "01") | (sub_stx_df["iso_tox"] == "02"),
+        "12",
+        sub_stx_df["iso_tox"],
+    )
     sub_stx_df = sub_stx_df.reindex(columns=keep_cols)
     sub_stx_df["iso_tox"] = pd.Categorical(
         sub_stx_df["iso_tox"], ordered=True, categories=heirarchy
