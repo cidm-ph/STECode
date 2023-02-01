@@ -7,10 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 
-
-choices = ["02", "01", "T2", "T1", "00"]
-heirarchy = ["12", "02", "01", "T2", "T1", "00"]
-
+heirarchy = ["02", "01", "T2", "T1", "00"]
 
 def recA_input(file):
     stx_df = pd.read_csv(file, sep="\t")
@@ -48,11 +45,11 @@ def recA_input(file):
         & (filt_stx_df["virgene"].str.contains("stx1")),  # Triggers T1
         (filt_stx_df["Normalised"] < 2),  # Triggers 00
     ]
-    filt_stx_df["iso_tox"] = np.select(conditions, choices, default="XX")
+    filt_stx_df["iso_tox"] = np.select(conditions, heirarchy, default="XX")
     sub_stx_df = filt_stx_df.drop_duplicates(subset=["virgene"])
     keep_cols = ["virgene", "iso_tox"]
     sub_stx_df.loc[:, "iso_tox"] = np.where(
-        (sub_stx_df["iso_tox"] == "01") | (sub_stx_df["iso_tox"] == "02"),
+        (sub_stx_df["iso_tox"] == "01") & (sub_stx_df["iso_tox"] == "02"),
         "12",
         sub_stx_df["iso_tox"],
     )
