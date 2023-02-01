@@ -26,7 +26,7 @@ def stecode():
     """
     Running order of STECode
     """
-    parser = arguments.create_parser() # pylint: disable=E1101
+    parser = arguments.create_parser()  # pylint: disable=E1101
     args = parser.parse_args()
     is_assembly = bool(args.fasta is not None)
     is_reads = bool(args.R1 is not None)
@@ -47,7 +47,6 @@ def stecode():
     else:
         outdir = args.outdir
 
-
     # set threads defaults - if no threads are set, it will default to 4 threads
     if args.threads is None:
         default_threads = 4
@@ -60,7 +59,7 @@ def stecode():
         __version__,
         args.name,
         outdir,
-        args.threads
+        args.threads,
     )
 
     # force creation of new folder within set outdir
@@ -89,11 +88,7 @@ def stecode():
         # skip skesa
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
-        cmd_runners.run_bwa(
-            outdir,
-            ref_path + ref,
-            default_threads
-        ) 
+        cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
         subref_path = (
             outdir + "/" + args.name + "/bams/" + args.name + "_stxrecAeae.txt"
         )
@@ -108,7 +103,7 @@ def stecode():
                         cmd_runners.run_bwa,
                         outdir,
                         ref_path + subref + ".fasta",
-                        default_threads
+                        default_threads,
                     ): subref
                     for subref in subref_list
                 }
@@ -120,11 +115,9 @@ def stecode():
                         logging.error("%s generated an exception: %s", bam, exc)
         else:
             for subref in subref_list:
-                 cmd_runners.run_bwa(
-                    outdir,
-                    ref_path + subref + ".fasta",
-                    default_threads
-                ) 
+                cmd_runners.run_bwa(
+                    outdir, ref_path + subref + ".fasta", default_threads
+                )
         cmd_runners.combine_stxrecaeae(args.name, outdir)
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args.name, args.fasta, outdir
@@ -145,7 +138,7 @@ def stecode():
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args.name, args.fasta, outdir
         )
-        
+
     else:
         assists.check_files(args.R1)
         assists.check_files(args.R2)
@@ -154,11 +147,7 @@ def stecode():
         # Run bwa, samtools, skesa and abricate
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
-        cmd_runners.run_bwa(
-            outdir,
-            ref_path + ref,
-            default_threads
-        ) 
+        cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
         subref_path = (
             outdir + "/" + args.name + "/bams/" + args.name + "_stxrecAeae.txt"
         )
@@ -172,7 +161,7 @@ def stecode():
                         cmd_runners.run_bwa,
                         outdir,
                         ref_path + subref + ".fasta",
-                        default_threads
+                        default_threads,
                     ): subref
                     for subref in subref_list
                 }
@@ -184,20 +173,16 @@ def stecode():
                         logging.error("%s generated an exception: %s", bam, exc)
         else:
             for subref in subref_list:
-                 cmd_runners.run_bwa(
-                    outdir,
-                    ref_path + subref + ".fasta",
-                    default_threads
-                ) 
+                cmd_runners.run_bwa(
+                    outdir, ref_path + subref + ".fasta", default_threads
+                )
         cmd_runners.combine_stxrecaeae(args.name, outdir)
         cmd_runners.run_skesa(args.R1, args.R2, args.name, outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
 
     # stecode portion - file check
     file1 = os.path.join(outdir, args.name + "/" + args.name + "_eaesubtype.tab")
-    file3 = os.path.join(
-        outdir, args.name + "/" + args.name + "_sfindAbricate.tab"
-    )
+    file3 = os.path.join(outdir, args.name + "/" + args.name + "_sfindAbricate.tab")
 
     assists.check_files(file1)
     assists.check_files(file3)
@@ -205,15 +190,11 @@ def stecode():
     if is_assembly is True and is_reads is False:
         file2 = "skip"
     else:
-        file2 = os.path.join(
-            outdir, args.name + "/" + args.name + "_2recAstxeae.txt"
-        )
+        file2 = os.path.join(outdir, args.name + "/" + args.name + "_2recAstxeae.txt")
         assists.check_files(file2)
 
     # run stecode
-    go_df = go.merge_all_NNs(
-        file1, file2, file3, is_reads, args.name, args.longread
-    )
+    go_df = go.merge_all_NNs(file1, file2, file3, is_reads, args.name, args.longread)
     go.gen_output(args.name, outdir, go_df)
     logging.info(
         "Complete :D we have also made it into a file, please check %s for the STEC barcode for your sample",

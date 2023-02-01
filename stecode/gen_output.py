@@ -9,6 +9,9 @@ from .parsers import recAstxeae_parse as rp
 from .parsers import stecvir_parse as vp
 import pandas as pd
 import os
+import sys
+
+cols = ["eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4"]
 
 
 def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
@@ -27,7 +30,6 @@ def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
         merge_df["tox3"] = "00"
     if "tox4" not in merge_df:
         merge_df["tox4"] = "00"
-    cols = ["eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4"]
     merge_df["Virulence_barcode"] = merge_df[cols].apply(
         lambda row: "-".join(row.values.astype(str)), axis=1
     )
@@ -50,6 +52,14 @@ def gen_output(name, output, go_df):
     now = datetime.datetime.now()
     date = now.strftime("%Y%m%d")
     outfile = os.path.join(output, name, name + "_virbarcode_" + date + ".tab")
+    errorlog = os.path.join(output, name, name + "_stecode_" + date + ".log")
+    if go_df.empty is True:
+        with open(outfile, "w") as emptyfile:
+            emptyfile.write(
+                "Error: An error has occurred during the generation of your barcode, please check raw files, or retry."
+            )
+            emptyfile.close()
     go_df.to_csv(outfile, sep="\t", index=False)
     logging.info("Here is your barcode:")
     print(go_df.to_string(index=False))
+    sys.stdout = open(errorlog, "w")

@@ -76,7 +76,9 @@ def test_cmd(out_dir, fasta, name, longread, expected):
 
     assert result.returncode == 0
 
-    output_file_path = os.path.join(out_dir, name, name + "_virbarcode_" + date + ".tab")
+    output_file_path = os.path.join(
+        out_dir, name, name + "_virbarcode_" + date + ".tab"
+    )
 
     # check files exists
     assert os.path.isfile(output_file_path)

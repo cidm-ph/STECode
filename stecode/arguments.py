@@ -2,6 +2,7 @@ import argparse
 
 __version__ = "0.0.3"
 
+
 def create_parser():
     parser = argparse.ArgumentParser(description="STECode", prog="stecode")
     parser.add_argument("--outdir", "-o", help="Output directory to write to")
@@ -14,7 +15,14 @@ def create_parser():
         action="store_true",
         help="Genome was assembled by long reads",
     )
-    parser.add_argument("--threads", "-t", nargs='?', const=4, type=int, help="Specify number of threads used")
+    parser.add_argument(
+        "--threads",
+        "-t",
+        nargs="?",
+        const=4,
+        type=int,
+        help="Specify number of threads used",
+    )
     parser.add_argument("--name", "-n", help="Name of sample", required=True)
     parser.add_argument(
         "--version",
