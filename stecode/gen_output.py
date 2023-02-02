@@ -72,5 +72,5 @@ def gen_output(name, output, go_df):
             )
             emptyfile.close()
     go_df.to_csv(outfile, sep="\t", index=False)
-    logging.info("Here is your barcode:")
-    print(go_df.to_string(index=False))
+    go_string = go_df["Virulence_barcode"].to_string(index=False, header=False)
+    logging.info(f"Here is your barcode: {go_string}")
