@@ -48,7 +48,8 @@ def stecode():
 
     # force creation of new folder within set outdir
     newdir = outdir + "/" + args.name + "/bams"
-    if not os.path.exists(newdir):
+    folder_exists = os.path.exists(newdir)
+    if not folder_exists:
         os.makedirs(newdir)
     
     # errorlog
@@ -61,6 +62,12 @@ def stecode():
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
+    # log of folder creation
+    if not folder_exists:
+        logging.info("%s does not exist, creating directory.", newdir)
+    else:
+        logging.info("%s exists, skipping directory creation", newdir)
+    
     # cmd checks
     if is_reads is True:
         if args.R2 is None:
