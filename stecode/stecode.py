@@ -46,6 +46,11 @@ def stecode():
     else:
         outdir = args.outdir
 
+    # force creation of new folder within set outdir
+    newdir = outdir + "/" + args.name + "/bams"
+    if not os.path.exists(newdir):
+        os.makedirs(newdir)
+    
     # errorlog
     errorlog = os.path.join(outdir, args.name, args.name + "_stecode_" + date + ".log")
     
@@ -62,14 +67,6 @@ def stecode():
             logging.error("R2 was not provided, please provide the paired reads")
             sys.exit(1)
     
-    # force creation of new folder within set outdir
-    newdir = outdir + "/" + args.name + "/bams"
-    if os.path.exists(newdir):
-        logging.info("%s exists, skipping directory creation", newdir)
-    else:
-        logging.info("%s does not exist, creating directory.", newdir)
-        os.makedirs(newdir)
-
     # set threads defaults - if no threads are set, it will default to 4 threads
     if args.threads is None:
         default_threads = 4
