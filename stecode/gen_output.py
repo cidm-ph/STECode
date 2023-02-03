@@ -4,26 +4,47 @@ Subscript of STECode that converges the 3 input files from the parsers and gener
 
 import datetime
 import logging
-from .parsers import eaesubtype_parse as ep
-from .parsers import recAstxeae_parse as rp
-from .parsers import stecvir_parse as vp
+from parsers import eaesubtype_parse as ep
+from parsers import recAstxeae_parse as rp
+from parsers import stecvir_parse as vp
 import pandas as pd
 import os
 import sys
 
 cols = ["eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4"]
 
+recAfile = "/Users/winx/Documents/reads_for_testing/stecode/20-001-0154/20-001-0154_2recAstxeae.txt"
+virfile = "/Users/winx/Documents/reads_for_testing/stecode/20-001-0154/20-001-0154_sfindAbricate.tab"
+
 def pre_merge_check(recAfile, virfile):
     mid_recA = rp.recA_input(recAfile)
     mid_recA.drop(columns=["iso_tox"], inplace=True)
     mid_stx = vp.stecfinder_input(virfile)
-    merge_df = mid_recA.join(mid_stx, how="outer")
-    discrepant_values = merge_df.loc[merge_df['virgene'].ne(merge_df['GENE'])].fillna('')
-    if discrepant_values.empty is False:
-        dv_list = discrepant_values.T
+    discrepant_values1 = mid_recA[~mid_recA['virgene'].isin(mid_stx['GENE'])].reset_index(drop=True)
+    discrepant_values2 = mid_stx[~mid_stx["GENE"].isin(mid_recA["virgene"])].reset_index(drop=True)
+    if not discrepant_values1.empty and not discrepant_values2.empty:
+        merge_df = pd.concat([discrepant_values1, discrepant_values2], axis = 0, ignore_index=True).fillna('')
+    elif discrepant_values1.empty:
+        merge_df = discrepant_values2
+    else:
+        merge_df = discrepant_values1
+    if not merge_df.empty:
+        dv_list = merge_df.T
         dv_string = dv_list.to_string(index=False, header=False)
         x = ', '.join(dv_string.split())
-        msg = f"Discrepant stx genes ({x})were detected between mapping and abricate, please check raw files"
+        msg = f"Discrepant stx genes ({x}) were detected between mapping and abricate, please check raw files"
+        logging.error(msg)
+        sys.exit(1)
+
+    #merge_df = pd.concat([mid_recA, mid_stx], axis=1).reset_index(drop=True)
+    #stack_df = merge_df.stack()
+    #group_df = stack_df.reset_index(drop=True)
+    #stack_series = pd.Series(group_df[1].values)
+    #discrepant_rows = group_df[1].unique()
+    #discrepant_values = group_df[group_df[1].isin(discrepant_rows)]
+    if len(discrepant_values) != 0:
+        dv_list = ','.join(map(str, discrepant_values))
+        msg = f"Discrepant stx genes ({dv_list})were detected between mapping and abricate, please check raw files"
         logging.error(msg)
         sys.exit(1)
 
@@ -74,3 +95,5 @@ def gen_output(name, output, go_df):
     go_df.to_csv(outfile, sep="\t", index=False)
     go_string = go_df["Virulence_barcode"].to_string(index=False, header=False)
     logging.info(f"Here is your barcode: {go_string}")
+
+print(pre_merge_check(recAfile, virfile))
