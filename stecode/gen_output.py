@@ -36,18 +36,6 @@ def pre_merge_check(recAfile, virfile):
         logging.error(msg)
         sys.exit(1)
 
-    #merge_df = pd.concat([mid_recA, mid_stx], axis=1).reset_index(drop=True)
-    #stack_df = merge_df.stack()
-    #group_df = stack_df.reset_index(drop=True)
-    #stack_series = pd.Series(group_df[1].values)
-    #discrepant_rows = group_df[1].unique()
-    #discrepant_values = group_df[group_df[1].isin(discrepant_rows)]
-    if len(discrepant_values) != 0:
-        dv_list = ','.join(map(str, discrepant_values))
-        msg = f"Discrepant stx genes ({dv_list})were detected between mapping and abricate, please check raw files"
-        logging.error(msg)
-        sys.exit(1)
-
 def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
     NN1_df = ep.eaesubtype_input(stfile, name)
     if reads is True:
