@@ -4,17 +4,14 @@ Subscript of STECode that converges the 3 input files from the parsers and gener
 
 import datetime
 import logging
-from parsers import eaesubtype_parse as ep
-from parsers import recAstxeae_parse as rp
-from parsers import stecvir_parse as vp
+from .parsers import eaesubtype_parse as ep
+from .parsers import recAstxeae_parse as rp
+from .parsers import stecvir_parse as vp
 import pandas as pd
 import os
 import sys
 
 cols = ["eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4"]
-
-recAfile = "/Users/winx/Documents/reads_for_testing/stecode/20-001-0154/20-001-0154_2recAstxeae.txt"
-virfile = "/Users/winx/Documents/reads_for_testing/stecode/20-001-0154/20-001-0154_sfindAbricate.tab"
 
 def pre_merge_check(recAfile, virfile):
     mid_recA = rp.recA_input(recAfile)
@@ -83,5 +80,3 @@ def gen_output(name, output, go_df):
     go_df.to_csv(outfile, sep="\t", index=False)
     go_string = go_df["Virulence_barcode"].to_string(index=False, header=False)
     logging.info(f"Here is your barcode: {go_string}")
-
-print(pre_merge_check(recAfile, virfile))
