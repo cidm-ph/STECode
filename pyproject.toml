@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stecode"
-version = "0.0.3"
+version = "0.0.4"
 description = "Virulence barcoding for STEC"
 authors = ["Winkie Fong <Winkie.Fong@health.nsw.gov.au>"]
 license = "GPL-3.0-only"

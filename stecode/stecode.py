@@ -15,7 +15,7 @@ from stecode import cmd_runners
 from stecode import gen_output as go
 
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 logging.getLogger().setLevel(logging.INFO)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 formatter = logging.Formatter('STECode:%(levelname)s:%(asctime)s: %(message)s', datefmt= '%y/%m/%d %I:%M:%S %p')
