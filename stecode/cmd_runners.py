@@ -65,12 +65,12 @@ def combine_stxrecaeae(name, outdir):
     logging.info("Creating %s", stxrecaeae_file)
 
 
-def run_skesa(fq1, fq2, name, outdir):
+def run_skesa(fq1, fq2, cores, name, outdir):
     """
     Run Skesa for input into Abricate.
     """
     stuffdir = outdir + "/" + name
-    command4 = f"skesa --fastq {fq1},{fq2} --contigs_out {stuffdir}/{name}.contigs.fa"
+    command4 = f"skesa --fastq {fq1},{fq2} --cores {int(cores)} --contigs_out {stuffdir}/{name}.contigs.fa"
     assists.run_cmd(command4)
 
 

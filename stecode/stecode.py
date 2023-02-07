@@ -195,7 +195,7 @@ def stecode():
                     outdir, ref_path + subref + ".fasta", default_threads
                 )
         cmd_runners.combine_stxrecaeae(args.name, outdir)
-        cmd_runners.run_skesa(args.R1, args.R2, args.name, outdir)
+        cmd_runners.run_skesa(args.R1, args.R2, default_threads/2, args.name, outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
 
     # stecode portion - file check
