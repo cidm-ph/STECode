@@ -210,9 +210,9 @@ def stecode():
     else:
         file2 = os.path.join(outdir, args.name + "/" + args.name + "_2recAstxeae.txt")
         assists.check_files(file2)
+        go.pre_merge_check(file2, file3)
 
     # run stecode
-    go.pre_merge_check(file2, file3)
     go_df = go.merge_all_NNs(file1, file2, file3, is_reads, args.name, args.longread)
     go.gen_output(args.name, outdir, go_df)
     logging.info(
