@@ -17,7 +17,7 @@ git clone https://github.com/cidm-ph/STECode.git
 
 Then initialise the abricate database with
 ```
-abricate --setupdb --datadir STECode/stecode/database
+abricate --setupdb --datadir $STECode/stecode/database
 ```
 
 ## Usage
@@ -30,12 +30,20 @@ stecode --R1 $PATH/$R1.fq.gz --R2 $PATH/$R2.fq.gz --name $FILENAME --outdir $OUT
 FLAGS
 
 ```
---outdir, -o [Folder] optional folder to write output files to
---longread, -l turns on long read mode.
---R1, R1 fastq of sample (can be gzipped files)
---R2, R2 fastq of sample (can be gzipped files)
---name, -n [Name] name of the file you wish it to be
+--outdir, -o [PATH]             optional folder to write output files to
+--threads, -t [INT]             specify number of threads used (default = 4)
+--R1 [PATH]                     R1 fastq of sample (can be gzipped files)
+--R2 [PATH]                     R2 fastq of sample (can be gzipped files)
+--fasta, -f [PATH]              optional fasta file which will skip SKESA, can be used in conjunction with --longread.              
+--longread, -l                  turns on long read mode.
+--name, -n [STR]                name of the file you wish it to be [REQUIRED!]
+--parallel, -p                  run bwa in parallel, only marginally faster (optional)
+--version, -v                   print version
 ```
+
+SKESA Genome Assembly is the longest portion of this pipeline, so if you already have a genome assembly you can bypass SKESA by supplying a FASTA file. A FASTA only input can also be performed however, the second 'XX' will not show isogenic stx genes.
+
+CAUTION: The parallel flag is an optional option that runs the individual mapping using BWA in parallel to each other, this makes the script run a little faster, however it will use the number of threads that has been supplied in parallel. E.g if you specify `-t 8` then it will use 8 threads for EACH parallel process! Make sure you provide the appropriate threads to not brick your computer!
 
 ## Output
 
