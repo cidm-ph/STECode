@@ -37,7 +37,6 @@ FLAGS
 --fasta, -f [PATH]              optional fasta file which will skip SKESA, can be used in conjunction with --longread.              
 --longread, -l                  turns on long read mode.
 --name, -n [STR]                name of the file you wish it to be [REQUIRED!]
---parallel, -p                  run bwa in parallel, only marginally faster (optional)
 --version, -v                   print version
 ```
 
@@ -46,8 +45,16 @@ SKESA Genome Assembly is the longest portion of this pipeline, so if you already
 CAUTION: The parallel flag is an optional option that runs the individual mapping using BWA in parallel to each other, this makes the script run a little faster, however it will use the number of threads that has been supplied in parallel. E.g if you specify `-t 8` then it will use 8 threads for EACH parallel process! Make sure you provide the appropriate threads to not brick your computer!
 
 ## Output
+A few files are coalesced from mapping and abricate into a virulence barcode. 
 
 The first set of two digits represented the presence (to the subtype level) or absence of the eae gene. The next set of two digits represented inference of possible multiple, isogenic stx genes not assembled via short read sequencing. The last four sets of 2-mers each reflected the presence (to the subtype level) or absence of stx. This representation allowed up to four different stx operons to be captured, which is currently the maximum number observed both in vitro and in isolates.
+
+The result of your barcode will appear on the console, log file and its own file (--name_virbarcode_YYYYMMDD.tab).
+
+If a discrepancy between the mapping and abricate is found the program will stop and tell you to look at the raw output files. Raw output files that are most useful include:
+- sfindAbricate 
+- eaesubtype
+- targetstx
 
 ## Dependencies
 - Python == 3.8.13
