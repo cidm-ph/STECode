@@ -42,12 +42,25 @@ def run_bwa(outdir, ref, threads):
     assists.run_cmd(command3)
 
 
-def get_subref(file):
+def get_subref(ref_path, file, outdir):
     sid_df = pd.read_csv(file, sep="\t")
     subref_df = sid_df[sid_df["coverage"] >= 90]
-    return subref_df["#rname"].tolist()
+    subref_list = subref_df["#rname"].tolist()
+    if "STECode_normalisation_eae" in subref_list:
+        subref_list.remove("STECode_normalisation_eae")
+    subref_file = os.path.join(outdir, "STECode_normalisation_targetstx.fasta")
+    with open(subref_file, 'w') as new_subref:
+        for filename in subref_list:
+            with open(os.path.join(ref_path, f"{filename}.fasta")) as infile:
+                new_subref.write(infile.read())
+    logging.info("Creating %s", subref_file)
+    return subref_file
 
+def run_bwa_index(new_subref):
+    command4 = f"bwa index {new_subref}"
+    assists.run_cmd(command4)
 
+"""
 def combine_stxrecaeae(name, outdir):
     bamdir = outdir + "/" + name + "/bams"
     stuffdir = outdir + "/" + name
@@ -63,7 +76,7 @@ def combine_stxrecaeae(name, outdir):
             with open(stxrecaeae_file, "a") as outfile:
                 outfile.writelines(lines[-1:])
     logging.info("Creating %s", stxrecaeae_file)
-
+"""
 
 def run_skesa(fq1, fq2, cores, name, outdir):
     """
@@ -79,10 +92,10 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
     Run Abricate to get the eaesubtype and stecvirulence
     """
     stuffdir = outdir + "/" + name
-    command5 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {stuffdir}/{name}.contigs.fa > {stuffdir}/{name}_eaesubtype.tab"
-    command6 = f"abricate --datadir {assists.stecode_db_dir} --mincov 21 --db {stecvir_db} {stuffdir}/{name}.contigs.fa > {stuffdir}/{name}_sfindAbricate.tab"
-    assists.run_cmd(command5)
+    command6 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {stuffdir}/{name}.contigs.fa > {stuffdir}/{name}_eaesubtype.tab"
+    command7 = f"abricate --datadir {assists.stecode_db_dir} --mincov 21 --db {stecvir_db} {stuffdir}/{name}.contigs.fa > {stuffdir}/{name}_sfindAbricate.tab"
     assists.run_cmd(command6)
+    assists.run_cmd(command7)
 
 
 def run_solo_abricate(eaesub_db, stecvir_db, name, infile, outdir):
@@ -90,7 +103,7 @@ def run_solo_abricate(eaesub_db, stecvir_db, name, infile, outdir):
     Run Abricate to get the eaesubtype and stecvirulence for FASTAs only
     """
     stuffdir = outdir + "/" + name
-    command5 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {infile} > {stuffdir}/{name}_eaesubtype.tab"
-    command6 = f"abricate --datadir {assists.stecode_db_dir} --mincov 21 --db {stecvir_db} {infile} > {stuffdir}/{name}_sfindAbricate.tab"
-    assists.run_cmd(command5)
+    command6 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {infile} > {stuffdir}/{name}_eaesubtype.tab"
+    command7 = f"abricate --datadir {assists.stecode_db_dir} --mincov 21 --db {stecvir_db} {infile} > {stuffdir}/{name}_sfindAbricate.tab"
     assists.run_cmd(command6)
+    assists.run_cmd(command7)

@@ -8,6 +8,7 @@ import logging
 import os
 import sys
 import warnings
+import glob
 import concurrent.futures
 from stecode import arguments
 from stecode import assists
@@ -15,7 +16,7 @@ from stecode import cmd_runners
 from stecode import gen_output as go
 
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 logging.getLogger().setLevel(logging.INFO)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 formatter = logging.Formatter('STECode:%(levelname)s:%(asctime)s: %(message)s', datefmt= '%y/%m/%d %I:%M:%S %p')
@@ -47,13 +48,14 @@ def stecode():
         outdir = args.outdir
 
     # force creation of new folder within set outdir
-    newdir = outdir + "/" + args.name + "/bams"
+    maindir = outdir + "/" + args.name
+    newdir = maindir + "/bams"
     folder_exists = os.path.exists(newdir)
     if not folder_exists:
         os.makedirs(newdir)
     
     # errorlog
-    errorlog = os.path.join(outdir, args.name, args.name + "_stecode_" + date + ".log")
+    errorlog = os.path.join(maindir, args.name + "_stecode_" + date + ".log")
     
     stdout_handler = logging.StreamHandler(sys.stdout)
     file_handler = logging.FileHandler(errorlog, mode='w+')
@@ -108,12 +110,10 @@ def stecode():
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
         subref_path = (
-            outdir + "/" + args.name + "/bams/" + args.name + "_stxrecAeae.txt"
+            maindir + "/bams/" + args.name + "_stxrecAeae.txt"
         )
-        subref_list = cmd_runners.get_subref(subref_path)
-        if "STECode_normalisation_eae" in subref_list:
-            subref_list.remove("STECode_normalisation_eae")
-
+        subref_fa = cmd_runners.get_subref(ref_path, subref_path, os.path.join(outdir, args.name))
+        """
         if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_bam = {
@@ -136,7 +136,10 @@ def stecode():
                 cmd_runners.run_bwa(
                     outdir, ref_path + subref + ".fasta", default_threads
                 )
-        cmd_runners.combine_stxrecaeae(args.name, outdir)
+                cmd_runners.combine_stxrecaeae(args.name, outdir)
+        """
+        cmd_runners.run_bwa_index(subref_fa)
+        cmd_runners.run_bwa(outdir, subref_fa, default_threads)
         cmd_runners.run_solo_abricate(
             "eaesub", "stecfinder", args.name, args.fasta, outdir
         )
@@ -167,11 +170,11 @@ def stecode():
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
         subref_path = (
-            outdir + "/" + args.name + "/bams/" + args.name + "_stxrecAeae.txt"
+            maindir + args.name + "_stxrecAeae.txt"
         )
-        subref_list = cmd_runners.get_subref(subref_path)
-        if "STECode_normalisation_eae" in subref_list:
-            subref_list.remove("STECode_normalisation_eae")
+        subref_fa = cmd_runners.get_subref(ref_path, subref_path, os.path.join(outdir, args.name))
+
+        """
         if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_bam = {
@@ -195,12 +198,15 @@ def stecode():
                     outdir, ref_path + subref + ".fasta", default_threads
                 )
         cmd_runners.combine_stxrecaeae(args.name, outdir)
+        """
+        cmd_runners.run_bwa_index(subref_fa)
+        cmd_runners.run_bwa(outdir, subref_fa, default_threads)
         cmd_runners.run_skesa(args.R1, args.R2, default_threads/2, args.name, outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
 
     # stecode portion - file check
-    file1 = os.path.join(outdir, args.name + "/" + args.name + "_eaesubtype.tab")
-    file3 = os.path.join(outdir, args.name + "/" + args.name + "_sfindAbricate.tab")
+    file1 = os.path.join(maindir, args.name + "_eaesubtype.tab")
+    file3 = os.path.join(maindir, args.name + "_sfindAbricate.tab")
 
     assists.check_files(file1)
     assists.check_files(file3)
@@ -208,9 +214,14 @@ def stecode():
     if is_assembly is True and is_reads is False:
         file2 = "skip"
     else:
-        file2 = os.path.join(outdir, args.name + "/" + args.name + "_2recAstxeae.txt")
+        file2 = os.path.join(newdir, args.name + "_targetstx.txt")
         assists.check_files(file2)
         go.pre_merge_check(file2, file3)
+
+    # clean-up
+
+    for filepath in glob.glob(os.path.join(maindir, 'STECode_normalisation_targetstx.fasta*')):
+        os.remove(filepath)
 
     # run stecode
     go_df = go.merge_all_NNs(file1, file2, file3, is_reads, args.name, args.longread)
@@ -219,10 +230,6 @@ def stecode():
         "Complete :D we have also made it into a file, please check %s for the STEC barcode for your sample",
         outdir,
     )
-
-
-
-
 
 if __name__ == "__main__":
     stecode()
