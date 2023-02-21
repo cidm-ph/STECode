@@ -31,10 +31,12 @@ def create_parser():
         help="get STECode version",
         version=f"STECode v{__version__}",
     )
+    """
     parser.add_argument(
         "--parallel",
         "-p",
         action="store_true",
         help="Parallelise the mapping portion if computer allows",
     )
+    """
     return parser
