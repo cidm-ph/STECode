@@ -109,9 +109,7 @@ def stecode():
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
-        subref_path = (
-            maindir + "/bams/" + args.name + "_stxrecAeae.txt"
-        )
+        subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
         subref_fa = cmd_runners.get_subref(ref_path, subref_path, os.path.join(outdir, args.name))
         """
         if args.parallel is True:
@@ -169,9 +167,7 @@ def stecode():
         ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
-        subref_path = (
-            maindir + args.name + "_stxrecAeae.txt"
-        )
+        subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
         subref_fa = cmd_runners.get_subref(ref_path, subref_path, os.path.join(outdir, args.name))
 
         """
