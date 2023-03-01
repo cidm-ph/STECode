@@ -44,7 +44,7 @@ def run_bwa(outdir, ref, threads):
 
 def get_subref(ref_path, file, outdir):
     sid_df = pd.read_csv(file, sep="\t")
-    subref_df = sid_df[sid_df["coverage"] >= 90]
+    subref_df = sid_df[sid_df["coverage"] >= 97]
     subref_list = subref_df["#rname"].tolist()
     if "STECode_normalisation_eae" in subref_list:
         subref_list.remove("STECode_normalisation_eae")
