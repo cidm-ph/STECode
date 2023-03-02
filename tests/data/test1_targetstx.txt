@@ -1,0 +1,4 @@
+#rname	startpos	endpos	numreads	covbases	coverage	meandepth	meanbaseq	meanmapq
+STECode_normalisation_stx1a	1	1227	601	1227	100	67.6161	34.5	60
+STECode_normalisation_stx2c	1	1241	1091	1241	100	120.952	34.6	60
+STECode_normalisation_recA	1	1077	464	1077	100	55.9536	34.4	59.9
