@@ -11,8 +11,8 @@ heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 @pytest.mark.parametrize(
     "input, expected",
     [
-        ("test1_2recAstxeae.txt", {"virgene": ["stx1a"], "iso_tox": ["00"]}),
-        ("test2_2recAstxeae.txt", {"virgene": ["stx1a"], "iso_tox": ["00"]}),
+        ("test1_targetstx.txt", {"virgene": ["stx2c", "stx1a"], "iso_tox": ["02", "00"]}),
+        ("test2_targetstx.txt", {"virgene": ["stx1a"], "iso_tox": ["00"]}),
     ],
 )
 def test_recA_parser(input, expected):

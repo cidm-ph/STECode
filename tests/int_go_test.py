@@ -13,23 +13,23 @@ heirarchy = ["12", "02", "01", "T2", "T1", "00"]
     [
         (
             "test1_eaesubtype.tab",
-            "test1_2recAstxeae.txt",
+            "test1_targetstx.txt",
             "test1_sfindAbricate.tab",
             "test1",
             {
                 "#Sequence_ID": ["test1"],
                 "eae_sub": ["06"],
-                "iso_tox": ["00"],
+                "iso_tox": ["02"],
                 "tox1": ["1A"],
                 "tox2": ["2C"],
                 "tox3": ["00"],
                 "tox4": ["00"],
-                "Virulence_barcode": ["06-00-1A-2C-00-00"],
+                "Virulence_barcode": ["06-02-1A-2C-00-00"],
             },
         ),
         (
             "test2_eaesubtype.tab",
-            "test2_2recAstxeae.txt",
+            "test2_targetstx.txt",
             "test2_sfindAbricate.tab",
             "test2",
             {

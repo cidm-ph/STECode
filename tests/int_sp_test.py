@@ -17,10 +17,11 @@ data_dir = "tests/data/"
     ],
 )
 def test_stecvir_parser(input, expected):
+    print(expected)
     temp = pd.DataFrame(expected)
     shouldbe = temp.set_index("tox").T
     shouldbe.reset_index(drop=True, inplace=True)
-    result = sp.stecfinder_input(os.path.join(data_dir, input))
+    result = sp.stecfinder_cont(os.path.join(data_dir, input))
     pdt.assert_frame_equal(result, shouldbe)
 
 
