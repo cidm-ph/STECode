@@ -84,6 +84,6 @@ def test_cmd(out_dir, fasta, name, longread, expected):
     assert os.path.isfile(output_file_path)
 
     # compare lines
-    with open(output_file_path, 'r') as outfile:
+    with open(output_file_path, "r") as outfile:
         out_results = outfile.read()
     assert out_results == expected

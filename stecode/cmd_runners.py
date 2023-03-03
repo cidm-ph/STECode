@@ -49,16 +49,18 @@ def get_subref(ref_path, file, outdir):
     if "STECode_normalisation_eae" in subref_list:
         subref_list.remove("STECode_normalisation_eae")
     subref_file = os.path.join(outdir, "STECode_normalisation_targetstx.fasta")
-    with open(subref_file, 'w') as new_subref:
+    with open(subref_file, "w") as new_subref:
         for filename in subref_list:
             with open(os.path.join(ref_path, f"{filename}.fasta")) as infile:
                 new_subref.write(infile.read())
     logging.info("Creating %s", subref_file)
     return subref_file
 
+
 def run_bwa_index(new_subref):
     command4 = f"bwa index {new_subref}"
     assists.run_cmd(command4)
+
 
 """
 def combine_stxrecaeae(name, outdir):
@@ -77,6 +79,7 @@ def combine_stxrecaeae(name, outdir):
                 outfile.writelines(lines[-1:])
     logging.info("Creating %s", stxrecaeae_file)
 """
+
 
 def run_skesa(fq1, fq2, cores, name, outdir):
     """

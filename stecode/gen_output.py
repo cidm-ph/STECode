@@ -13,14 +13,21 @@ import sys
 
 cols = ["eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4"]
 
+
 def pre_merge_check(recAfile, virfile):
     mid_recA = rp.recA_input(recAfile)
     mid_recA.drop(columns=["iso_tox"], inplace=True)
     mid_stx = vp.stecfinder_input(virfile)
-    discrepant_values1 = mid_recA[~mid_recA['virgene'].isin(mid_stx['GENE'])].reset_index(drop=True)
-    discrepant_values2 = mid_stx[~mid_stx["GENE"].isin(mid_recA["virgene"])].reset_index(drop=True)
+    discrepant_values1 = mid_recA[
+        ~mid_recA["virgene"].isin(mid_stx["GENE"])
+    ].reset_index(drop=True)
+    discrepant_values2 = mid_stx[
+        ~mid_stx["GENE"].isin(mid_recA["virgene"])
+    ].reset_index(drop=True)
     if not discrepant_values1.empty and not discrepant_values2.empty:
-        merge_df = pd.concat([discrepant_values1, discrepant_values2], axis = 0, ignore_index=True).fillna('')
+        merge_df = pd.concat(
+            [discrepant_values1, discrepant_values2], axis=0, ignore_index=True
+        ).fillna("")
     elif discrepant_values1.empty:
         merge_df = discrepant_values2
     else:
@@ -28,10 +35,11 @@ def pre_merge_check(recAfile, virfile):
     if not merge_df.empty:
         dv_list = merge_df.T
         dv_string = dv_list.to_string(index=False, header=False)
-        x = ', '.join(dv_string.split())
+        x = ", ".join(dv_string.split())
         msg = f"Discrepant stx genes ({x}) were detected between mapping and abricate, please check raw files"
         logging.error(msg)
         sys.exit(1)
+
 
 def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
     NN1_df = ep.eaesubtype_input(stfile, name)

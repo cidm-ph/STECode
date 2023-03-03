@@ -83,7 +83,9 @@ def test_cmd(out_dir, r1, r2, fasta, name):
     # compare the final line with expected output
     lines = result.stdout.splitlines()
     last_line = lines[-1]
-    exp_stdout_line = "Complete :D we have also made it into a file, please check " + str(out_dir) + " for the STEC barcode for your sample'"
-    assert (
-        str(last_line).endswith(exp_stdout_line)
+    exp_stdout_line = (
+        "Complete :D we have also made it into a file, please check "
+        + str(out_dir)
+        + " for the STEC barcode for your sample'"
     )
+    assert str(last_line).endswith(exp_stdout_line)

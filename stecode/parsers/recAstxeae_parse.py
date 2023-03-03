@@ -10,6 +10,7 @@ import numpy as np
 choices = ["02", "01", "T2", "T1", "00"]
 heirarchy = ["12", "02", "01", "T2", "T1", "00"]
 
+
 def recA_input(file):
     stx_df = pd.read_csv(file, sep="\t")
     if stx_df.empty:
@@ -64,6 +65,7 @@ def recA_input(file):
     sub_stx_df.sort_values(by="iso_tox", inplace=True)
     sub_stx_df.reset_index(drop=True, inplace=True)
     return sub_stx_df
+
 
 def recA_cont(file):
     sub_stx_df = recA_input(file)

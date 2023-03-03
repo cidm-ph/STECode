@@ -19,7 +19,9 @@ from stecode import gen_output as go
 __version__ = "0.0.5"
 logging.getLogger().setLevel(logging.INFO)
 warnings.simplefilter(action="ignore", category=FutureWarning)
-formatter = logging.Formatter('STECode:%(levelname)s:%(asctime)s: %(message)s', datefmt= '%y/%m/%d %I:%M:%S %p')
+formatter = logging.Formatter(
+    "STECode:%(levelname)s:%(asctime)s: %(message)s", datefmt="%y/%m/%d %I:%M:%S %p"
+)
 
 dependency_list = ["abricate", "samtools", "bwa", "skesa"]
 ref_list = []
@@ -53,12 +55,12 @@ def stecode():
     folder_exists = os.path.exists(newdir)
     if not folder_exists:
         os.makedirs(newdir)
-    
+
     # errorlog
     errorlog = os.path.join(maindir, args.name + "_stecode_" + date + ".log")
-    
+
     stdout_handler = logging.StreamHandler(sys.stdout)
-    file_handler = logging.FileHandler(errorlog, mode='w+')
+    file_handler = logging.FileHandler(errorlog, mode="w+")
     for handler in [stdout_handler, file_handler]:
         handler.setLevel(logging.INFO)
         handler.setFormatter(formatter)
@@ -69,13 +71,13 @@ def stecode():
         logging.info("%s does not exist, creating directory.", newdir)
     else:
         logging.info("%s exists, skipping directory creation", newdir)
-    
+
     # cmd checks
     if is_reads is True:
         if args.R2 is None:
             logging.error("R2 was not provided, please provide the paired reads")
             sys.exit(1)
-    
+
     # set threads defaults - if no threads are set, it will default to 4 threads
     if args.threads is None:
         default_threads = 4
@@ -110,7 +112,9 @@ def stecode():
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
         subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
-        subref_fa = cmd_runners.get_subref(ref_path, subref_path, os.path.join(outdir, args.name))
+        subref_fa = cmd_runners.get_subref(
+            ref_path, subref_path, os.path.join(outdir, args.name)
+        )
         """
         if args.parallel is True:
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -168,7 +172,9 @@ def stecode():
         ref = "STECode_normalisation_stxrecAeae.fasta"
         cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
         subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
-        subref_fa = cmd_runners.get_subref(ref_path, subref_path, os.path.join(outdir, args.name))
+        subref_fa = cmd_runners.get_subref(
+            ref_path, subref_path, os.path.join(outdir, args.name)
+        )
 
         """
         if args.parallel is True:
@@ -197,7 +203,7 @@ def stecode():
         """
         cmd_runners.run_bwa_index(subref_fa)
         cmd_runners.run_bwa(outdir, subref_fa, default_threads)
-        cmd_runners.run_skesa(args.R1, args.R2, default_threads/2, args.name, outdir)
+        cmd_runners.run_skesa(args.R1, args.R2, default_threads / 2, args.name, outdir)
         cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
 
     # stecode portion - file check
@@ -216,7 +222,9 @@ def stecode():
 
     # clean-up
 
-    for filepath in glob.glob(os.path.join(maindir, 'STECode_normalisation_targetstx.fasta*')):
+    for filepath in glob.glob(
+        os.path.join(maindir, "STECode_normalisation_targetstx.fasta*")
+    ):
         os.remove(filepath)
 
     # run stecode
@@ -226,6 +234,7 @@ def stecode():
         "Complete :D we have also made it into a file, please check %s for the STEC barcode for your sample",
         outdir,
     )
+
 
 if __name__ == "__main__":
     stecode()

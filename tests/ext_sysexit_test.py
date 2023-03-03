@@ -13,7 +13,8 @@ def test_missing_R2(out_dir):
     # testing the exit of not applying an R2
     name = "test1"
     result = subprocess.run(
-        ["python3", "-m", "stecode", "--R1", r1, "-n", name, "-o", out_dir], capture_output=True
+        ["python3", "-m", "stecode", "--R1", r1, "-n", name, "-o", out_dir],
+        capture_output=True,
     )
 
     # assert that capture output is matching the expected
