@@ -1,3 +1,4 @@
+![STECode_Brand_large_crop](https://user-images.githubusercontent.com/93765714/224181287-feba57a1-c336-48f1-a304-9a1ee7eb7464.png)
 # STECode
 
 A pipeline for deployment of a Shiga Toxin-Producing Escherichia coli Virulence Barcode.
@@ -41,8 +42,6 @@ FLAGS
 ```
 
 SKESA Genome Assembly is the longest portion of this pipeline, so if you already have a genome assembly you can bypass SKESA by supplying a FASTA file. A FASTA only input can also be performed however, the second 'XX' will not show isogenic stx genes.
-
-CAUTION: The parallel flag is an optional option that runs the individual mapping using BWA in parallel to each other, this makes the script run a little faster, however it will use the number of threads that has been supplied in parallel. E.g if you specify `-t 8` then it will use 8 threads for EACH parallel process! Make sure you provide the appropriate threads to not brick your computer!
 
 ## Output
 A few files are coalesced from mapping and abricate into a virulence barcode. 
