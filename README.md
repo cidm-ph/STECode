@@ -60,6 +60,7 @@ If a discrepancy between the mapping and abricate is found the program will stop
 - [BWA](https://sourceforge.net/projects/bio-bwa/) >= 0.7.17
 - [Samtools](http://www.htslib.org/) >= 1.16.1
 - [Abricate](https://github.com/tseemann/abricate) >= 1.0.1
+- [Skesa](https://github.com/ncbi/SKESA) >= 2.4.0
 
 
 ## Associated Citations
