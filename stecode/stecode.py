@@ -108,43 +108,27 @@ def stecode():
         logging.info("Found fasta, R1 and R2, skipping Skesa")
 
         # skip skesa
-        ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
-        ref = "STECode_normalisation_stxrecAeae.fasta"
-        cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
-        subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
-        subref_fa = cmd_runners.get_subref(
-            ref_path, subref_path, os.path.join(outdir, args.name)
-        )
-        """
-        if args.parallel is True:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-                future_to_bam = {
-                    executor.submit(
-                        cmd_runners.run_bwa,
-                        outdir,
-                        ref_path + subref + ".fasta",
-                        default_threads,
-                    ): subref
-                    for subref in subref_list
-                }
-                for future in concurrent.futures.as_completed(future_to_bam):
-                    bam = future_to_bam[future]
-                    try:
-                        data = future.result()
-                    except Exception as exc:
-                        logging.error("%s generated an exception: %s", bam, exc)
+        if args.longread is True:
+            logging.info(
+                "Running only Abricate on already assembled genomes, iso_tox will be CG"
+            )
+            cmd_runners.run_solo_abricate(
+                "eaesub", "stecfinder", args.name, args.fasta, outdir
+            )
+        
         else:
-            for subref in subref_list:
-                cmd_runners.run_bwa(
-                    outdir, ref_path + subref + ".fasta", default_threads
-                )
-                cmd_runners.combine_stxrecaeae(args.name, outdir)
-        """
-        cmd_runners.run_bwa_index(subref_fa)
-        cmd_runners.run_bwa(outdir, subref_fa, default_threads)
-        cmd_runners.run_solo_abricate(
-            "eaesub", "stecfinder", args.name, args.fasta, outdir
-        )
+            ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
+            ref = "STECode_normalisation_stxrecAeae.fasta"
+            cmd_runners.run_bwa(outdir, ref_path + ref, default_threads)
+            subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
+            subref_fa = cmd_runners.get_subref(
+                ref_path, subref_path, os.path.join(outdir, args.name)
+            )    
+            cmd_runners.run_bwa_index(subref_fa)
+            cmd_runners.run_bwa(outdir, subref_fa, default_threads)
+            cmd_runners.run_solo_abricate(
+                "eaesub", "stecfinder", args.name, args.fasta, outdir
+            )
 
     elif is_assembly is True and is_reads is False:
         assists.check_files(args.fasta)
@@ -212,8 +196,9 @@ def stecode():
 
     assists.check_files(file1)
     assists.check_files(file3)
-
-    if is_assembly is True and is_reads is False:
+    if args.longread is True:
+        file2 = "skip"
+    elif is_assembly is True and is_reads is False:
         file2 = "skip"
     else:
         file2 = os.path.join(newdir, args.name + "_targetstx.txt")

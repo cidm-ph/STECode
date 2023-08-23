@@ -43,7 +43,7 @@ def pre_merge_check(recAfile, virfile):
 
 def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
     NN1_df = ep.eaesubtype_input(stfile, name)
-    if reads is True:
+    if reads is True and longread is False:
         NN2_df = rp.recA_cont(recAfile)
     else:
         NN2_df = rp.run_skip(longread)
