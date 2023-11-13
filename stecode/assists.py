@@ -107,6 +107,6 @@ def check_abricate():
         )
         sys.exit(1)
     dbs = [x.split("\t")[0] for x in result.stdout.splitlines()[1:]]
-    if any(x not in dbs for x in ["eaesub", "stecfinder"]):
+    if any(x not in dbs for x in ["eaesub", "stecodeDB"]):
         logging.critical("unable to find STECode databases")
         sys.exit(1)

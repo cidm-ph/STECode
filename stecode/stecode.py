@@ -113,7 +113,7 @@ def stecode():
                 "Running only Abricate on already assembled genomes, iso_tox will be CG"
             )
             cmd_runners.run_solo_abricate(
-                "eaesub", "stecfinder", args.name, args.fasta, outdir
+                "eaesub", "stecodeDB", args.name, args.fasta, outdir
             )
         
         else:
@@ -127,7 +127,7 @@ def stecode():
             cmd_runners.run_bwa_index(subref_fa)
             cmd_runners.run_bwa(outdir, subref_fa, default_threads)
             cmd_runners.run_solo_abricate(
-                "eaesub", "stecfinder", args.name, args.fasta, outdir
+                "eaesub", "stecodeDB", args.name, args.fasta, outdir
             )
 
     elif is_assembly is True and is_reads is False:
@@ -143,7 +143,7 @@ def stecode():
 
         # run only abricate
         cmd_runners.run_solo_abricate(
-            "eaesub", "stecfinder", args.name, args.fasta, outdir
+            "eaesub", "stecodeDB", args.name, args.fasta, outdir
         )
 
     else:
@@ -188,7 +188,7 @@ def stecode():
         cmd_runners.run_bwa_index(subref_fa)
         cmd_runners.run_bwa(outdir, subref_fa, default_threads)
         cmd_runners.run_skesa(args.R1, args.R2, default_threads / 2, args.name, outdir)
-        cmd_runners.run_abricate("eaesub", "stecfinder", args.name, outdir)
+        cmd_runners.run_abricate("eaesub", "stecodeDB", args.name, outdir)
 
     # stecode portion - file check
     file1 = os.path.join(maindir, args.name + "_eaesubtype.tab")
