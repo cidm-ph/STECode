@@ -115,7 +115,7 @@ def stecode():
             cmd_runners.run_solo_abricate(
                 "eaesub", "stecodeDB", args.name, args.fasta, outdir
             )
-        
+
         else:
             ref_path = os.path.join(os.path.dirname(__file__), "database/stxrecaeae/")
             ref = "STECode_normalisation_stxrecAeae.fasta"
@@ -123,7 +123,7 @@ def stecode():
             subref_path = os.path.join(newdir, args.name + "_stxrecAeae.txt")
             subref_fa = cmd_runners.get_subref(
                 ref_path, subref_path, os.path.join(outdir, args.name)
-            )    
+            )
             cmd_runners.run_bwa_index(subref_fa)
             cmd_runners.run_bwa(outdir, subref_fa, default_threads)
             cmd_runners.run_solo_abricate(
