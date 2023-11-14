@@ -47,7 +47,7 @@ def merge_all_NNs(stfile, recAfile, virfile, reads, name, longread):
         NN2_df = rp.recA_cont(recAfile)
     else:
         NN2_df = rp.run_skip(longread)
-    NN3456_df = vp.stecfinder_cont(virfile)
+    NN3456_df = vp.stecfinder_cont(virfile, longread)
     merge_df = pd.concat([NN1_df, NN2_df, NN3456_df], axis=1, join="inner")
     if "tox1" not in merge_df:
         merge_df["tox1"] = "00"

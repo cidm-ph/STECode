@@ -10,19 +10,22 @@ pd.set_option("display.max_rows", None)
 pd.options.mode.chained_assignment = None
 
 
-def stecfinder_input(test):
+def stecfinder_input(test, longread):
     vfdb_df = pd.read_csv(test, sep="\t", header=0)
     if vfdb_df.empty:
         msg = "This sample did not contain any stx genes, please check again if this sample is STEC or investigate the mapping results. Exiting"
         logging.error(msg)
         sys.exit(1)
     filt_vfdb_df = vfdb_df[vfdb_df["GENE"].str.contains("stx")]
-    filt_vfdb_df = filt_vfdb_df[["GENE"]].drop_duplicates()
+    if longread is False:
+        filt_vfdb_df = filt_vfdb_df[["GENE"]].drop_duplicates()
+    else:
+        filt_vfdb_df = filt_vfdb_df[["GENE"]]
     return filt_vfdb_df
 
 
-def stecfinder_cont(test):
-    filt_vfdb_df = stecfinder_input(test)
+def stecfinder_cont(test, longread):
+    filt_vfdb_df = stecfinder_input(test, longread)
     filt_vfdb_df["GENE"] = filt_vfdb_df["GENE"].str.upper()
     filt_vfdb_df["Stxtype"] = filt_vfdb_df["GENE"].str[-2:]
     temp_vfdb_df = (
