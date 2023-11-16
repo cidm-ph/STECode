@@ -14,10 +14,10 @@ import sys
 cols = ["eae_sub", "iso_tox", "tox1", "tox2", "tox3", "tox4"]
 
 
-def pre_merge_check(recAfile, virfile):
+def pre_merge_check(recAfile, virfile, longread):
     mid_recA = rp.recA_input(recAfile)
     mid_recA.drop(columns=["iso_tox"], inplace=True)
-    mid_stx = vp.stecfinder_input(virfile)
+    mid_stx = vp.stecfinder_input(virfile, longread)
     discrepant_values1 = mid_recA[
         ~mid_recA["virgene"].isin(mid_stx["GENE"])
     ].reset_index(drop=True)

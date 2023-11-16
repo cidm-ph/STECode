@@ -203,7 +203,7 @@ def stecode():
     else:
         file2 = os.path.join(newdir, args.name + "_targetstx.txt")
         assists.check_files(file2)
-        go.pre_merge_check(file2, file3)
+        go.pre_merge_check(file2, file3, args.longread)
 
     # clean-up
 
