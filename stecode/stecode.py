@@ -16,7 +16,7 @@ from stecode import cmd_runners
 from stecode import gen_output as go
 
 
-__version__ = "0.0.5"
+__version__ = "1.0.0"
 logging.getLogger().setLevel(logging.INFO)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 formatter = logging.Formatter(
