@@ -18,7 +18,7 @@ git clone https://github.com/cidm-ph/STECode.git
 
 Then initialise the abricate database with
 ```
-abricate --setupdb --datadir $STECode/stecode/database
+abricate --setupdb --datadir path/to/stecode/database
 ```
 
 ## Usage
