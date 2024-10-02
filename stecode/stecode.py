@@ -110,9 +110,9 @@ def stecode():
         # skip skesa
         if args.longread is True:
             logging.info(
-                "Running only Abricate on already assembled genomes, iso_tox will be CG"
+                "Running only Abricate on the long read assembled genome, iso_tox will be CG"
             )
-            cmd_runners.run_solo_abricate(
+            cmd_runners.run_solo_abricateLR(
                 "eaesub", "stecodeDB", args.name, args.fasta, outdir
             )
 
@@ -133,18 +133,19 @@ def stecode():
     elif is_assembly is True and is_reads is False:
         assists.check_files(args.fasta)
         if args.longread is True:
-            logging.info(
-                "Running only Abricate on already assembled genomes, iso_tox will be CG"
+             logging.info(
+                "Running only Abricate on long read assembled genomes, iso_tox will be CG"
+            )
+            cmd_runners.run_solo_abricateLR(
+                "eaesub", "stecodeDB", args.name, args.fasta, outdir
             )
         else:
             logging.info(
-                "Running only Abricate on already assembled genomes, iso_tox will be DG"
+                "Running only Abricate on short read draft genomes, iso_tox will be DG"
             )
-
-        # run only abricate
-        cmd_runners.run_solo_abricate(
-            "eaesub", "stecodeDB", args.name, args.fasta, outdir
-        )
+            cmd_runners.run_solo_abricate(
+                "eaesub", "stecodeDB", args.name, args.fasta, outdir
+                )
 
     else:
         assists.check_files(args.R1)

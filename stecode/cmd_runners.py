@@ -103,10 +103,20 @@ def run_abricate(eaesub_db, stecvir_db, name, outdir):
 
 def run_solo_abricate(eaesub_db, stecvir_db, name, infile, outdir):
     """
-    Run Abricate to get the eaesubtype and stecvirulence for FASTAs only
+    Run Abricate to get the eaesubtype and stecvirulence for draft assemblies only
     """
     stuffdir = outdir + "/" + name
     command6 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {infile} > {stuffdir}/{name}_eaesubtype.tab"
     command7 = f"abricate --datadir {assists.stecode_db_dir} --mincov 21 --db {stecvir_db} {infile} > {stuffdir}/{name}_sfindAbricate.tab"
     assists.run_cmd(command6)
     assists.run_cmd(command7)
+
+def run_solo_abricateLR(eaesub_db, stecvir_db, name, infile, outdir):
+    """
+    Run Abricate to get the eaesubtype and stecvirulence for long-read assemblies
+    """
+    stuffdir = outdir + "/" + name
+    command8 = f"abricate --datadir {assists.stecode_db_dir} --db {eaesub_db} --minid 90.0 --mincov 90.0 {infile} > {stuffdir}/{name}_eaesubtype.tab"
+    command9 = f"abricate --datadir {assists.stecode_db_dir} --mincov 75 --db {stecvir_db} {infile} > {stuffdir}/{name}_sfindAbricate.tab"
+    assists.run_cmd(command8)
+    assists.run_cmd(command9)
