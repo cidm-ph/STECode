@@ -133,7 +133,7 @@ def stecode():
     elif is_assembly is True and is_reads is False:
         assists.check_files(args.fasta)
         if args.longread is True:
-             logging.info(
+            logging.info(
                 "Running only Abricate on long read assembled genomes, iso_tox will be CG"
             )
             cmd_runners.run_solo_abricateLR(
